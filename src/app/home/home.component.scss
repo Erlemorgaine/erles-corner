@@ -4,6 +4,8 @@
 $title-color: rgba(255, 255, 255, 0.7);
 
 $menu-holder-w-h: 30rem;
+$slide-offset-top: -10%;
+$slide-offset-x: 17%;
 
 @keyframes colorTransition {
   from {background-position: 0}
@@ -11,14 +13,14 @@ $menu-holder-w-h: 30rem;
 }
 
 @keyframes slideButtons1 {
-  to { transform: translate3d(-100%, -10%, 0) }
+  to { transform: translate3d(-100%, $slide-offset-top, 0) }
 }
 
 @keyframes slideButtons2 {
   45% { opacity: 1 }
-  50% { transform: translate3d(-160%, -10%, 0) }
-  51% { transform: translate3d(70%, -10%, 0); opacity: 0 }
-  to { transform: translate3d(20%, -10%, 0) }
+  50% { transform: translate3d(calc(-150% - (#{$slide-offset-x} / 2)), $slide-offset-top, 0) }
+  51% { transform: translate3d(calc(50% + #{$slide-offset-x}), $slide-offset-top, 0); opacity: 0 }
+  to { transform: translate3d($slide-offset-x, $slide-offset-top, 0) }
 }
 
 @mixin slideShow($start, $animation) {
@@ -26,7 +28,7 @@ $menu-holder-w-h: 30rem;
 
   height: 100%;
   width: 100%;
-  transform: translate3d($start, -10%, 0);
+  transform: translate3d($start, $slide-offset-top, 0);
   animation: $animation 15s linear infinite;
   display: flex;
   align-items: flex-start;
@@ -42,6 +44,7 @@ $menu-holder-w-h: 30rem;
     a:nth-child(#{$i}) {
       background-color: $bgColor;
       color: $color;
+      transition: all .5s;
 
       &:hover {
         background-color: $color;
@@ -98,7 +101,7 @@ $menu-holder-w-h: 30rem;
           position: relative;
 
           .button-slide-1 {
-            @include slideShow(20%, slideButtons1);
+            @include slideShow($slide-offset-x, slideButtons1);
           }
 
           .button-slide-2 {
