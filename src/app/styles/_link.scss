@@ -1,8 +1,34 @@
+@import "./globals.scss";
+
+@mixin dropShadow($color) {
+ filter: drop-shadow(2px 2px 3px $color) drop-shadow(-2px -2px 3px $color)
+}
+
 a {
+  display: inline-block;
   text-decoration: none;
   padding: .5rem .75rem;
   border-radius: 5px;
   margin: .5rem;
   box-shadow: inset 0 0 15px black;
   font-weight: bold;
+
+  &.page-link {
+    font-size: 1.5rem;
+    color: white;
+    background-color: transparent;
+    font-family: 'Reenie Beanie', cursive;
+    filter: none;
+    box-shadow: none;
+    transition: all .5s;
+
+    &:hover {
+      @include dropShadow(white);
+    }
+
+    &:active {
+      @include dropShadow($home-2-light);
+      color: $home-2-light;
+    }
+  }
 }
