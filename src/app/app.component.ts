@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'erles-corner';
+  public links: {[k: string]: string}[] = [
+    {link: 'sunset', text: 'Naar de zonsondergang'}
+  ];
 }
