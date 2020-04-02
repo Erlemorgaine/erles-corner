@@ -74,6 +74,7 @@ $slide-offset-x: 17%;
       top: calc(50vh - #{$menu-holder-w-h} / 2);
       color: $title-color;
       filter: drop-shadow(1px 1px .75px $title-color) drop-shadow(-1px -1px .75px $title-color);
+      transition: top .5s;
 
       &:first-child {
         left: calc(50vw - #{$menu-holder-w-h} / 2);
@@ -96,6 +97,7 @@ $slide-offset-x: 17%;
         height: $menu-holder-w-h;
         clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
         background-color: rgba(0, 0, 0, 1);
+        transition: width .5s, height .5s;
 
         .button-slide-wrap {
           position: relative;
@@ -106,6 +108,44 @@ $slide-offset-x: 17%;
 
           .button-slide-2 {
             @include slideShow(-100%, slideButtons2);
+          }
+        }
+      }
+    }
+
+    @media screen and (max-width: 768px) {
+      $menu-holder-s-w-h: 20rem;
+      $slide-offset-s-x: -50%;
+
+      h1 {
+        top: calc(50vh - #{$menu-holder-s-w-h} / 1.75);
+
+        &:first-child {
+          left: calc(50vw - #{$menu-holder-s-w-h} / 1.75);
+        }
+
+        &:not(:first-child) {
+          right: calc(50vw - #{$menu-holder-s-w-h} / 1.75);
+        }
+      }
+
+      // todo: also slideshow
+      .menu-holder-wrap .menu-holder {
+        width: $menu-holder-s-w-h;
+        height: $menu-holder-s-w-h;
+
+        .button-slide-wrap .button-slide {
+          &-1 {
+            width: fit-content;
+            top: 20%;
+            left: 17%;
+            flex-direction: column;
+            align-items: initial;
+            animation: none;
+          }
+
+          &-2 {
+            visibility: hidden;
           }
         }
       }
