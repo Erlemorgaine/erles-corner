@@ -7,10 +7,10 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
   public links: {[k: string]: string}[] = [
-    {link: '/tbc', text: 'Hou je adem in'},
-    {link: '/sunset', text: 'Zonsondergang'},
-    {link: '/starry-night', text: 'CSS Secrets'},
-    {link: '/css-secrets', text: 'Sterrennacht'},
-    {link: '/tbc', text: 'Hou je adem in'}
+    {link: '/tbc', text: 'DATA VISUALS'},
+    {link: '/sunset', text: 'SUNSET'},
+    {link: '/starry-night', text: 'CSS SECRETS'},
+    {link: '/css-secrets', text: 'STARRY NIGHT'},
+    {link: '/tbc', text: 'HOLD YOUR BREATH'}
   ];
 }
