@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
   public links: {[k: string]: string}[] = [
-    {link: '/tbc', text: 'DATA VISUALS'},
+    {link: '/charts', text: 'DATA VISUALS'},
     {link: '/sunset', text: 'SUNSET'},
     {link: '/starry-night', text: 'CSS SECRETS'},
     {link: '/css-secrets', text: 'STARRY NIGHT'},
