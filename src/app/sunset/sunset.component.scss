@@ -14,6 +14,9 @@ $cloud-shadow: radial-gradient(rgba(0, 19, 0, 0.31) 30%, transparent);
 
 /* Numerical values */
 
+$box-x: 600px;
+$box-y: 420px;
+
 $small-cloud-w-h: 50px;
 $middle-cloud-w-h: 80px;
 $big-cloud-w: 110px;
@@ -22,21 +25,30 @@ $big-cloud-h: 100px;
 /* Layout */
 
 a {
-  margin: 1rem;
+  margin-left: 0;
+  position: absolute;
+  top: calc(100vh - #{$box-y} - (100vh - #{$box-y}) / 2 - 3rem);
+  left: calc(100vw - #{$box-x} - (100vw - #{$box-x}) / 2);
+
+  @media screen and (max-width: $box-x) {
+    left: 0;
+  }
 }
 
 .container {
   width: 100vw;
   height: 100vh;
   background-color: black;
+  display: flex;
+  flex-direction: column;
 }
 
 .box {
   @include center;
 
   display: block;
-  width: 600px;
-  height: 420px;
+  width: $box-x;
+  height: $box-y;
   background-image: linear-gradient(to bottom right, #1c035e, #ce2801, #ce2801);
   overflow: hidden;
 }

@@ -114,6 +114,10 @@ $slide-offset-x: 17%;
     }
 
     @media screen and (max-width: 768px) {
+      @keyframes pulsingButtons {
+        to { transform: scale(1.05) }
+      }
+
       $menu-holder-s-w-h: 20rem;
       $slide-offset-s-x: -50%;
 
@@ -142,6 +146,10 @@ $slide-offset-x: 17%;
             flex-direction: column;
             align-items: initial;
             animation: none;
+
+            a {
+              animation: pulsingButtons 1s alternate infinite;
+            }
           }
 
           &-2 {
