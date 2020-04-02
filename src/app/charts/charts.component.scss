@@ -1,0 +1,191 @@
+@import "../styles/mixins.scss";
+@import "../styles/globals.scss";
+
+/* Colors */
+$ground-color: linear-gradient(to bottom, #6FB23E, #257b21 30%, #10340f);
+$ground-reflection: linear-gradient(-90deg, rgba(206, 107, 47, 0.37), transparent, rgba(28, 3, 94, 0.27));
+
+$sun1-color: linear-gradient(90deg, rgba(206, 174, 36, 0.76), #cec894);
+$sun2-color: linear-gradient(90deg, rgba(206, 83, 29, 0.76), rgba(206, 146, 50, 0.76));
+$sun3-color: linear-gradient(90deg, rgba(168, 10, 36, 0.75) 10%, rgba(206, 76, 9, 0.75));
+
+$cloud-color: linear-gradient(to bottom, rgba(212, 212, 212, 0.81) 20%, rgba(112, 75, 153, 0.58));
+$cloud-shadow: radial-gradient(rgba(0, 19, 0, 0.31) 30%, transparent);
+
+/* Numerical values */
+
+$box-x: 600px;
+$box-y: 420px;
+
+$small-cloud-w-h: 50px;
+$middle-cloud-w-h: 80px;
+$big-cloud-w: 110px;
+$big-cloud-h: 100px;
+
+/* Layout */
+
+a {
+  margin-left: 0;
+  position: absolute;
+  top: calc(100vh - #{$box-y} - (100vh - #{$box-y}) / 2 - 3rem);
+  left: calc(100vw - #{$box-x} - (100vw - #{$box-x}) / 2);
+
+  @media screen and (max-width: $box-x) {
+    left: 0;
+  }
+}
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+}
+
+.box {
+  @include center;
+
+  display: block;
+  width: $box-x;
+  height: $box-y;
+  background-image: linear-gradient(to bottom right, #1c035e, #ce2801, #ce2801);
+  overflow: hidden;
+}
+
+/* Ground */
+
+.ground {
+  width: 120%;
+  height: 40%;
+  position: absolute;
+  left: -10%;
+  bottom: -10%;
+  background-image: $ground-color;
+  z-index: 5;
+  border-top-left-radius: 50%;
+  transform: skew(-5deg, -2deg);
+  overflow: hidden;
+}
+
+.ground::after {
+  content: '';
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-image: $ground-reflection;
+  border-top-left-radius: 50%;
+}
+
+/* Sun */
+
+@mixin sun($width, $zIndex, $color, $animationDuration) {
+  position: absolute;
+  width: $width;
+  height: calc(#{$width} * 1.2);
+  top: 12%;
+  left: calc((100% - #{$width}) / 2);
+  background-image: $color;
+  border-radius: 50%;
+  z-index: 4;
+  animation: pulsing-sun 5s infinite;
+}
+
+@keyframes pulsing-sun {
+  from { transform: scale(1) }
+  50% { transform: scale(1.05) }
+  to { transform: scale(1) }
+}
+
+.sun1 {
+  @include sun(60%, 3, $sun1-color, 5s);
+}
+
+.sun2 {
+  @include sun(80%, 4, $sun2-color, 4s);
+}
+
+.sun3 {
+  @include sun(100%, 5, $sun3-color, 3s);
+
+  left: 25%;
+}
+
+/* Clouds */
+
+@mixin cloud($width, $height, $right, $bottom) {
+  width: $width;
+  height: $height;
+  position: absolute;
+  right: $right;
+  bottom: $bottom;
+  background-image: $cloud-color;
+  border-radius: 50%;
+}
+
+@mixin cloud-box($top, $left) {
+  width: 150px;
+  height: 30px;
+  position: absolute;
+  top: $top;
+  left: $left;
+  animation: moving-cloud 40s linear infinite;
+  z-index: 7;
+}
+
+@keyframes moving-cloud {
+  from { transform: translateX(-225%) }
+  to { transform: translateX(320%) }
+}
+
+.cloud-box {
+  @include cloud-box(30%, 20%);
+}
+
+.cloud-1 {
+  @include cloud($small-cloud-w-h, $small-cloud-w-h, 65%, 0);
+}
+
+.cloud-2 {
+  @include cloud($middle-cloud-w-h, $middle-cloud-w-h, 20%, -20%);
+}
+
+.cloud-3 {
+  @include cloud($big-cloud-w, $big-cloud-h, -30%, -30%);
+}
+
+.cloud-4 {
+  @include cloud($small-cloud-w-h, $small-cloud-w-h, -50%, 0);
+}
+
+.cloud-shadow-box {
+  @include cloud-box(-10%, 20%);
+}
+
+.cloud-shadow-flip {
+  transform: scaleY(-1);
+}
+
+.cloud-shadow-1 {
+  @include cloud($small-cloud-w-h, $small-cloud-w-h, 65%, 0);
+
+  background-image: $cloud-shadow;
+}
+
+.cloud-shadow-2 {
+  @include cloud($middle-cloud-w-h, $middle-cloud-w-h, 20%, -20%);
+
+  background-image: $cloud-shadow;
+}
+
+.cloud-shadow-3 {
+  @include cloud($big-cloud-w, $big-cloud-h, -30%, -30%);
+
+  background-image: $cloud-shadow;
+}
+
+.cloud-shadow-4 {
+  @include cloud($small-cloud-w-h, $small-cloud-w-h, -50%, 0);
+
+  background-image: $cloud-shadow;
+}
