@@ -1,5 +1,11 @@
 .container-black {
-  width: 100vw;
-  height: 100vh;
   background-color: black;
+  color: white;
+}
+
+canvas {
+  width: 80% !important;
+  max-width: 1000px;
+  height: auto !important;
+  margin: 0 auto;
 }
