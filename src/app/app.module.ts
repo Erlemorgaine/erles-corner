@@ -10,6 +10,9 @@ import { ChartsModule } from 'ng2-charts';
 import {BarChartComponent} from "./charts/bar-chart/bar-chart.component";
 import {RadarChartComponent} from "./charts/radar-chart/radar-chart.component";
 import {PieChartComponent} from "./charts/pie-chart/pie-chart.component";
+import {ThemeDecadeComponent} from "./charts/lego/theme-per-decade/theme-decade.component";
+import {LegoChartsComponent} from "./charts/lego/lego-charts.component";
+import {DefaultChartsComponent} from "./charts/default/default-charts.component";
 
 @NgModule({
   declarations: [
@@ -17,9 +20,12 @@ import {PieChartComponent} from "./charts/pie-chart/pie-chart.component";
     SunsetComponent,
     HomeComponent,
     ChartsComponent,
+    DefaultChartsComponent,
     BarChartComponent,
     RadarChartComponent,
-    PieChartComponent
+    PieChartComponent,
+    LegoChartsComponent,
+    ThemeDecadeComponent
   ],
   imports: [
     BrowserModule,

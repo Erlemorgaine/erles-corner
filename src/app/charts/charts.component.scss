@@ -1,6 +1,6 @@
 @import "../styles/globals.scss";
 
-.container-black > *:not(.back-wrapper) {
+::ng-deep .container-black .chart {
   padding: 2rem 0;
 }
 
@@ -8,15 +8,6 @@
   width: 80%;
   margin: 0 auto;
   border-bottom: 4px solid white;
-}
-
-$chartColors:
-  2 'black',
-  3 $home-5-light,
-  4 $home-2-dark;
-
-@each $i, $bgColor in $chartColors {
-  .chart:nth-child(#{$i}) {
-    background-color: $bgColor;
-  }
+  display: flex;
+  justify-content: space-between;
 }

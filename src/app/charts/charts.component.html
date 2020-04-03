@@ -1,14 +1,15 @@
 <div class="container-black">
   <div class="back-wrapper">
     <a class="page-link" [routerLink]="'/home'">Go back home</a>
+    <div>
+      <a *ngFor="let link of chartLinks"
+         class="page-link"
+         [ngClass]="{'current': url === link.link}"
+         [routerLink]="'/charts/' + link.link"
+          (click)="setUrl(link.link)">
+        {{ link.text }}
+      </a>
+    </div>
   </div>
-  <div class="chart">
-    <app-bar-chart></app-bar-chart>
-  </div>
-  <div class="chart">
-    <app-radar-chart></app-radar-chart>
-  </div>
-  <div class="chart">
-    <app-pie-chart></app-pie-chart>
-  </div>
+  <router-outlet></router-outlet>
 </div>
