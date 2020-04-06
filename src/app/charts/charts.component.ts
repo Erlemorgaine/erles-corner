@@ -2,11 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Chart} from "chart.js";
 import {ActivatedRoute, Router} from "@angular/router";
 
-enum ChartView {
-  Lego = 'lego',
-  Default = 'default'
-}
-
 @Component({
   selector: 'app-charts',
   templateUrl: './charts.component.html',
@@ -14,7 +9,7 @@ enum ChartView {
 })
 export class ChartsComponent implements OnInit {
 
-  url: string = 'default';
+  url: string;
   chartLinks: {[k: string]: string}[] = [
     {link: 'default', text: 'Try-and-see'},
     {link: 'lego', text: 'Lego land'}
@@ -33,6 +28,7 @@ export class ChartsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // todo: fix this
     // const url = this.route.firstChild.snapshot.;
     // this.url = url[url.length];
   }

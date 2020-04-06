@@ -4,11 +4,8 @@
  filter: drop-shadow(2px 2px 3px $color) drop-shadow(-2px -2px 3px $color)
 }
 
-@keyframes currentLink {
-  from { @include dropShadow($home-1); }
-  35% { @include dropShadow($home-2); }
-  70% { @include dropShadow($home-3); }
-  to { @include dropShadow($home-4); }
+@mixin dropShadowSmall($color) {
+  filter: drop-shadow(.5px .5px .5px $color) drop-shadow(-.5px -.5px 1px $color)
 }
 
 a {
@@ -41,7 +38,8 @@ a {
   }
 
   &.current {
+    @include dropShadowSmall($home-3-light);
+
     text-decoration: underline;
-    animation: currentLink 10s alternate infinite;
   }
 }

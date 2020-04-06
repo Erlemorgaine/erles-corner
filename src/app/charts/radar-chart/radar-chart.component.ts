@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {titleOptions} from "../chart-data";
-import {Chart} from "chart.js";
+import {chartFontColor} from "../chart-data";
 
 @Component({
   selector: 'app-radar-chart',
@@ -8,7 +7,6 @@ import {Chart} from "chart.js";
   styleUrls: ['./radar-chart.component.scss']
 })
 export class RadarChartComponent implements OnInit {
-  public fontColor = {fontColor: 'black'};
 
   public radarChartLabels = ['Q1', 'Q2', 'Q3', 'Q4'];
   public radarChartData = [];
@@ -17,30 +15,10 @@ export class RadarChartComponent implements OnInit {
     animation: {
       duration: 2000
     },
-    title: {
-      ...titleOptions,
-      text: 'A Radar Chart',
-      ...this.fontColor
-    },
-    legend: {
-      labels: {
-        ...this.fontColor
-      }
-    },
-    scale: {
-      pointLabels: {
-        ...this.fontColor,
-        fontSize: 16
-      },
-      ticks: {
-        ...this.fontColor,
-      }
-    }
+    ...chartFontColor('A radar chart', true)
   };
 
   ngOnInit(): void {
-    Chart.defaults
-
     const ctx = (document.getElementById('radar') as HTMLCanvasElement).getContext('2d');
     const gradient1 = ctx.createLinearGradient(20,0, 1500, 500);
     const gradient2 = ctx.createLinearGradient(40,0, 2000, 1000);

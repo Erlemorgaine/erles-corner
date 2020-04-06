@@ -13,6 +13,8 @@ import {PieChartComponent} from "./charts/pie-chart/pie-chart.component";
 import {ThemeDecadeComponent} from "./charts/lego/theme-per-decade/theme-decade.component";
 import {LegoChartsComponent} from "./charts/lego/lego-charts.component";
 import {DefaultChartsComponent} from "./charts/default/default-charts.component";
+import {ColorsThemeComponent} from "./charts/lego/colors-per-theme/colors-theme.component";
+import {FocusDirective} from "./directives/focus.directive";
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import {DefaultChartsComponent} from "./charts/default/default-charts.component"
     RadarChartComponent,
     PieChartComponent,
     LegoChartsComponent,
-    ThemeDecadeComponent
+    ThemeDecadeComponent,
+    ColorsThemeComponent,
+    FocusDirective
   ],
   imports: [
     BrowserModule,

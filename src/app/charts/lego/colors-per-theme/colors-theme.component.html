@@ -1,0 +1,21 @@
+<div *ngIf="barChartData.length != 0">
+  <h1 class="chart-header">Amount of colors in 'Pirates' themed sets</h1>
+
+  <div class="pie-container">
+    <div class="decade-buttons">
+      <button *ngFor="let decade of decades" (click)="setOtherDecade(decade)" [ngClass]="{'focus': decade === currentDecade}" inputFocus>
+        <img src="assets/img/lego_figure.png" alt="">
+        <span>{{ decade }}</span>
+      </button>
+    </div>
+
+    <canvas baseChart
+            id="colors-theme"
+            [datasets]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [legend]="true"
+            [chartType]="'pie'">
+    </canvas>
+  </div>
+</div>

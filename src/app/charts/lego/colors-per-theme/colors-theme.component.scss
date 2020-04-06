@@ -1,0 +1,107 @@
+$lego-yellow: #f2cd37;
+$lego-blue: #5c8ef0;
+$lego-red: #ff6466;
+$lego-green: #64a573;
+$lego-brown: #856b55;
+
+h1 {
+  color: black;
+}
+
+.decade-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin: 1rem auto 0 auto;
+  border-bottom: 3px solid black;
+
+  button {
+    position: relative;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    font-family: 'Raleway', sans-serif;
+    font-size: 1rem;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    font-weight: bold;
+    width: 100%;
+    padding-top: .5rem;
+
+    img {
+      width: 2rem;
+      margin-right: .5rem;
+      z-index: 1;
+    }
+
+    span {
+      z-index: 1;
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: -1.4rem; left: 0;
+      width: 100%;
+      height: .5rem;
+      background-color: $lego-yellow;
+      border-bottom: .5rem solid $lego-blue;
+      transform: translateX(-50%);
+      transition: transform 1s, filter .5s;
+    }
+
+    $lego-colors:
+      1 $lego-yellow,
+      2 $lego-blue,
+      3 $lego-red,
+      4 $lego-green,
+      5 $lego-brown;
+
+    @each $i, $color in $lego-colors {
+      &:nth-child(#{$i}) {
+        background-color: $color;
+        &:after {
+          border-bottom: .5rem solid $color;
+
+          @if($i == 1) {
+            border-bottom: .5rem solid black;
+          }
+        }
+      }
+    }
+
+    &:first-child {
+      border-top-left-radius: 3px;
+    }
+
+    &:last-child {
+      border-top-right-radius: 3px;
+    }
+
+    &:hover, &.focus {
+      background-color: transparent;
+      background-image: url("/assets/img/lego.jpg");
+      background-size: cover;
+
+      &:before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.7);
+        height: 100%;
+      }
+    }
+
+    &.focus {
+      overflow: visible;
+
+      &:after {
+        transform: translateX(0);
+      }
+    }
+  }
+}
+
+
