@@ -1,0 +1,12 @@
+@import "../../styles/globals.scss";
+
+$chartColors:
+  1 'black',
+  2 $home-5-light,
+  3 $home-2-dark;
+
+@each $i, $bgColor in $chartColors {
+  .chart:nth-child(#{$i}) {
+    background-color: $bgColor;
+  }
+}

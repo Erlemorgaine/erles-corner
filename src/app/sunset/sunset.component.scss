@@ -24,6 +24,11 @@ $big-cloud-h: 100px;
 
 /* Layout */
 
+.container-black {
+  width: 100vw;
+  height: 100vh;
+}
+
 a {
   margin-left: 0;
   position: absolute;
@@ -33,14 +38,6 @@ a {
   @media screen and (max-width: $box-x) {
     left: 0;
   }
-}
-
-.container {
-  width: 100vw;
-  height: 100vh;
-  background-color: black;
-  display: flex;
-  flex-direction: column;
 }
 
 .box {

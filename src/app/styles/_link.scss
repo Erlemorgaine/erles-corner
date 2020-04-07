@@ -4,6 +4,10 @@
  filter: drop-shadow(2px 2px 3px $color) drop-shadow(-2px -2px 3px $color)
 }
 
+@mixin dropShadowSmall($color) {
+  filter: drop-shadow(.5px .5px .5px $color) drop-shadow(-.5px -.5px 1px $color)
+}
+
 a {
   font-family: 'Do Hyeon', sans-serif;
   display: inline-block;
@@ -31,5 +35,11 @@ a {
       @include dropShadow($home-2-light);
       color: $home-2-light;
     }
+  }
+
+  &.current {
+    @include dropShadowSmall($home-3-light);
+
+    text-decoration: underline;
   }
 }
