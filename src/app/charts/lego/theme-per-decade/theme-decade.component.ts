@@ -27,7 +27,7 @@ export class ThemeDecadeComponent implements OnInit {
 
   ngOnInit(): void {
 
-    d3.csv('assets/sets_parent_theme_decade.csv').then((data) => {
+    d3.csv('assets/reduced_theme_decade.csv').then((data) => {
        // set labels as years
       let years = data.map((d) => d['decade']);
       years = years.filter((y, i) => years.indexOf(y) === i)

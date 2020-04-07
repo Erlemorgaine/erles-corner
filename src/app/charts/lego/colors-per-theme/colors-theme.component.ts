@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {chartFontColor} from "../../chart-data";
 import * as d3 from 'd3';
 import * as _ from 'lodash';
+import {draw} from "patternomaly";
 // import * as tf from '@tensorflow/tfjs';
 
 @Component({
@@ -11,70 +12,105 @@ import * as _ from 'lodash';
 })
 export class ColorsThemeComponent implements OnInit {
 
+  public colorBlindMode: boolean = false;
   public data: object;
-  public currentDecade: string = '1990';
+  public dataOfTheme: object;
   public decades: string[];
+  public themes: string[];
+  public currentDecade: string = '1990';
+  public currentTheme: string = 'Space';
 
   public barChartOptions = {
     responsive: true,
     animation: {
       duration: 2000
     },
-    // todo my own title with some explanation?
     ...chartFontColor('', false, 'left')
   };
 
   public barChartLabels = [];
   public barChartData = [];
+  public patterns: ('plus' | 'cross' | 'dash' | 'cross-dash' | 'dot' | 'dot-dash' | 'disc' | 'ring' | 'line' | 'line-vertical' | 'weave' | 'zigzag' | 'zigzag-vertical' | 'diagonal' | 'diagonal-right-left' | 'square' | 'box' | 'triangle' | 'triangle-inverted' | 'diamond' | 'diamond-box')[] = ['plus', 'cross', 'dash', 'cross-dash', 'dot', 'dot-dash', 'disc', 'ring', 'line', 'line-vertical', 'weave', 'zigzag', 'zigzag-vertical', 'diagonal', 'diagonal-right-left', 'square', 'box', 'triangle', 'triangle-inverted', 'diamond', 'diamond-box'];
 
   ngOnInit(): void {
 
-    d3.csv('assets/amount_parts_color_decade_parent_theme.csv').then((data) => {
+    d3.csv('assets/reduced_color_data.csv').then((data) => {
 
       // Group data by parent theme, group data from each parent theme by decade
-      const dataByTheme = _.groupBy(data, d => d['parent_theme_name']);
-      Object.keys(dataByTheme).forEach((k) => dataByTheme[k] = _.groupBy(dataByTheme[k], d => d['decade']));
+      const dataByTheme = _.groupBy(
+        data.filter((d) => !['Universal Building Set', 'Classic Town', 'Racers'].includes(d['parent_theme_name'])),
+          d => d['parent_theme_name']
+      );
+      const themes = Object.keys(dataByTheme);
+      this.themes = themes;
+      themes.forEach((k) => dataByTheme[k] = _.groupBy(dataByTheme[k], d => d['decade']));
+      this.data = dataByTheme;
 
-      // Pick random theme, sort each decade by quantity of (colored) parts
-      // todo: be able to choose theme
-      const testData = dataByTheme['Space'];
+      const dataOfTheme = this.sortTheme(dataByTheme[this.currentTheme]);
 
-      Object.keys(testData).map((k) => testData[k] = testData[k]
-        // reverse sort so that labels are more clearly ordered (large -> small)
-        .sort((a, b) => -(a['part_quantity'] - b['part_quantity'])));
-
-      this.data = testData;
-      this.setDecades(testData);
-      this.setLabels(testData, this.currentDecade);
-      this.setData(testData, this.currentDecade);
-
-      console.log(testData);
+      this.dataOfTheme = dataOfTheme;
+      this.decades = this.setDecades(dataOfTheme);
+      this.barChartLabels = this.setLabels(dataOfTheme, this.currentDecade);
+      this.setData(dataOfTheme, this.currentDecade);
     });
   }
 
-  setDecades(data: object): void {
+  // Sorts each decade by quantity of (colored) parts
+  sortTheme(data: object): object {
+    Object.keys(data).map((k) => data[k] = data[k]
+      // reverse sort so that labels are more clearly ordered (large -> small)
+      .sort((a, b) => -(a['part_quantity'] - b['part_quantity'])));
+
+    return data;
+  }
+
+  setDecades(data: object): string[] {
     const decades = Object.keys(data);
-    this.decades = decades.filter((y, i) => decades.indexOf(y) === i)
+    return decades.filter((y, i) => decades.indexOf(y) === i)
       .sort((a, b) => Number(a) - Number(b));
   }
 
-  setLabels(data: object, decade: string): void {
-    this.barChartLabels = data[decade].map((d) => d['color_name']);
+  setLabels(data: object, decade: string): string[] {
+    return data[decade].map((d) => d['color_name']);
   }
 
-  setData(data: object, decade: string): void {
+  toggleColorBlindMode(): void {
+    this.colorBlindMode = !this.colorBlindMode;
+    this.setData(this.dataOfTheme, this.currentDecade, this.colorBlindMode);
+  }
+
+  setData(data: object, decade: string, colorBlindMode: boolean = false): void {
     this.barChartData = [{
-      data: data[decade]
-        .map((d) => d['part_quantity']),
+      data: data[decade].map((d) => d['part_quantity']),
       label: 'test',
-      backgroundColor: data[decade].map((d) => '#' + d['rgb']),
+      backgroundColor: data[decade].map((d, i) => {
+        if (colorBlindMode) {
+          const factorIndexPatterns = i / (this.patterns.length - 1);
+          const patternColor = ['White', 'Trans-Clear'].includes(d['color_name']) ? 'black' : 'white';
+
+          if (factorIndexPatterns > 1) {
+            return draw(this.patterns[i - (this.patterns.length * Math.floor(factorIndexPatterns))], '#' + d['rgb'], patternColor)
+          }
+          return draw(this.patterns[i], '#' + d['rgb'], patternColor)
+        }
+        return '#' + d['rgb']
+      }),
       borderWidth: 0
     }];
   }
 
+  setTheme(theme: string): void {
+    this.currentTheme = theme;
+    const newData = this.sortTheme(this.data[theme]);
+    this.dataOfTheme = newData;
+    const decades = this.setDecades(newData);
+    this.decades = decades;
+    this.setOtherDecade(decades[0]);
+  }
+
   setOtherDecade(decade: string): void {
     this.currentDecade = decade;
-    this.setLabels(this.data, decade);
-    this.setData(this.data, decade);
+    this.barChartLabels = this.setLabels(this.dataOfTheme, decade);
+    this.setData(this.dataOfTheme, decade);
   }
 }

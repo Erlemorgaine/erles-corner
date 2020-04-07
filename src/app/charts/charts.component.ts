@@ -15,16 +15,12 @@ export class ChartsComponent implements OnInit {
     {link: 'lego', text: 'Lego land'}
   ];
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router
-  ) {
+  constructor() {
     Chart.defaults.global.defaultFontColor = 'white';
     Chart.defaults.global.defaultFontSize = 16;
     Chart.defaults.global.defaultFontFamily = 'Raleway';
     Chart.defaults.global.elements.line.borderColor = 'white';
-
-    // this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    Chart.defaults.global.legend.onHover = (e: Event) => (<HTMLElement>e.target).style.cursor = 'pointer';
   }
 
   ngOnInit(): void {
