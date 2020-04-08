@@ -120,7 +120,7 @@ $lego-colors-dark:
           }
 
           &:hover, &.focus {
-            background-image: linear-gradient(to left, rgba($color, 0.49), rgba($color, 0.49)), url("/assets/img/lego-heads.jpg");
+            background-image: linear-gradient(to left, rgba($color, 0.49), rgba($color, 0.49)), url("~src/assets/img/lego-heads.png");
             background-size: 30rem auto;
             background-position: center;
           }
@@ -185,7 +185,7 @@ $lego-colors-dark:
 
         &:hover, &.focus {
           background-color: transparent;
-          background-image: url("/assets/img/lego.jpg");
+          background-image: url("../../../../assets/img/lego.png");
           background-size: cover;
 
           &:before {
