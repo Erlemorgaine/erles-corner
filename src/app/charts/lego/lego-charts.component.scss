@@ -10,7 +10,7 @@ $chartColors:
     background-color: $bgColor;
 
     @if ($i == 2) {
-      background-image: linear-gradient(to bottom, $bgColor, rgba($bgColor, .6)), url("/assets/img/lego-heads.png");
+      background-image: linear-gradient(to bottom, $bgColor, rgba($bgColor, .6)), url("~src/assets/img/lego-heads.png");
     }
   }
 }
