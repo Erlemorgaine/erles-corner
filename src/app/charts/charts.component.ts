@@ -15,19 +15,21 @@ export class ChartsComponent implements OnInit {
     {link: 'lego', text: 'Lego land'}
   ];
 
-  constructor(private route: ActivatedRoute) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
     Chart.defaults.global.defaultFontColor = 'white';
     Chart.defaults.global.defaultFontSize = 16;
     Chart.defaults.global.defaultFontFamily = 'Raleway';
     Chart.defaults.global.elements.line.borderColor = 'white';
     Chart.defaults.global.legend.onHover = (e: Event) => (<HTMLElement>e.target).style.cursor = 'pointer';
+
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
   ngOnInit(): void {
-    // todo: fix this
-    const url = this.route.snapshot.firstChild;
-    console.log(url)
-    // this.url = url[url.length];
+    this.url = this.route.snapshot.firstChild.url[0].path;
   }
 
   setUrl(val: string): void {
