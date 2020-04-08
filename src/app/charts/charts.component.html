@@ -1,6 +1,11 @@
 <div class="container-black">
   <div class="back-wrapper">
-    <a class="page-link" [routerLink]="'/home'">Go back home</a>
+    <div>
+      <a class="page-link" [routerLink]="'/home'">Go back home</a>
+      <button *ngIf="url === 'lego'" [ngClass]="{ 'mode-off': colorBlindModeOn }" (click)="toggleColorBlindMode(!colorBlindModeOn)">
+        {{ 'Turn colorblind mode ' + (colorBlindModeOn ? 'off' : 'on') }}
+      </button>
+    </div>
     <div>
       <a *ngFor="let link of chartLinks"
          class="page-link"

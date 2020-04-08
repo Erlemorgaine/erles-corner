@@ -31,38 +31,11 @@ $lego-colors-dark:
   8 $lego-red-dark,
   9 $lego-green-dark;
 
-@keyframes pulsingButton {
-  from { box-shadow: none }
-  to { box-shadow: 3px 3px  4px 4px $lego-yellow, -3px -3px 4px 4px $lego-yellow }
-}
-
 .container {
   display: flex;
   flex-direction: column;
-
   width: 90%;
   margin: 0 auto;
-
-  > button {
-    font-family: 'Reenie Beanie', cursive;
-    font-size: 1.5rem;
-    background-color: $lego-yellow;
-    border: 2px solid black;
-    border-radius: 5px;
-    padding: .5rem .75rem;
-    width: fit-content;
-    align-self: flex-end;
-
-    &.mode-off {
-      color: $lego-yellow;
-      background-color: black;
-      border: 2px solid $lego-yellow;
-    }
-
-    &:hover {
-      animation: pulsingButton .5s alternate infinite;
-    }
-  }
 
   h1 {
     color: black;
@@ -120,7 +93,7 @@ $lego-colors-dark:
           }
 
           &:hover, &.focus {
-            background-image: linear-gradient(to left, rgba($color, 0.49), rgba($color, 0.49)), url("~src/assets/img/lego-heads.png");
+            background-image: linear-gradient(to left, rgba($color, 0.6), rgba($color, 0.49)), url("~src/assets/img/lego-heads.png");
             background-size: 30rem auto;
             background-position: center;
           }

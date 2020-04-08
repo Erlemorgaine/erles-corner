@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Chart} from "chart.js";
 import {ActivatedRoute, Router} from "@angular/router";
+import {ColorBlindService} from "../services/color-blind.service";
+import {BehaviorSubject} from "rxjs/internal/BehaviorSubject";
 
 @Component({
   selector: 'app-charts',
@@ -9,6 +11,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class ChartsComponent implements OnInit {
 
+  colorBlindModeOn: boolean = false;
   url: string;
   chartLinks: {[k: string]: string}[] = [
     {link: 'default', text: 'Try-and-see'},
@@ -17,7 +20,8 @@ export class ChartsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    public colorBlindService: ColorBlindService
   ) {
     Chart.defaults.global.defaultFontColor = 'white';
     Chart.defaults.global.defaultFontSize = 16;
@@ -34,5 +38,10 @@ export class ChartsComponent implements OnInit {
 
   setUrl(val: string): void {
     this.url = val;
+  }
+
+  toggleColorBlindMode(val: boolean): void {
+    this.colorBlindModeOn = val;
+    this.colorBlindService.colorBlindModeOn$.next(val);
   }
 }
