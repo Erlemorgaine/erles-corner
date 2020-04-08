@@ -15,7 +15,7 @@ export class ChartsComponent implements OnInit {
     {link: 'lego', text: 'Lego land'}
   ];
 
-  constructor() {
+  constructor(private route: ActivatedRoute) {
     Chart.defaults.global.defaultFontColor = 'white';
     Chart.defaults.global.defaultFontSize = 16;
     Chart.defaults.global.defaultFontFamily = 'Raleway';
@@ -25,7 +25,8 @@ export class ChartsComponent implements OnInit {
 
   ngOnInit(): void {
     // todo: fix this
-    // const url = this.route.firstChild.snapshot.;
+    const url = this.route.snapshot.firstChild;
+    console.log(url)
     // this.url = url[url.length];
   }
 
