@@ -31,15 +31,38 @@ $lego-colors-dark:
   8 $lego-red-dark,
   9 $lego-green-dark;
 
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blinkCaret {
+  from, to { border-color: transparent }
+  50% { border-color: black; }
+}
+
 .container {
   display: flex;
   flex-direction: column;
   width: 90%;
   margin: 0 auto;
 
-  h1 {
+  .chart-header {
     color: black;
     margin-top: 1rem;
+  }
+
+  .type-effect {
+    width: fit-content;
+
+    h2 {
+      overflow: hidden;
+      border-right: 3px solid transparent;
+      white-space: nowrap;
+      animation:
+        typing 3s steps(40, end),
+        blinkCaret .5s step-end 8;
+    }
   }
 
   .theme-buttons {

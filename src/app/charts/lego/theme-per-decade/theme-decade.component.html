@@ -1,4 +1,4 @@
-<div class="container">
+<div *ngIf="barChartLabels.length !== 0" class="container">
   <h1 class="chart-header">Amount of different Lego sets per theme</h1>
   <div class="theme-buttons">
     <button *ngFor="let theme of themes" [id]="theme + 'Button'"

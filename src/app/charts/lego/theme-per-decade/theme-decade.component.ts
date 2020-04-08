@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import * as d3 from 'd3';
 import {LegoChartComponent} from "../lego-chart.component";
+import {ColorBlindService} from "../../../services/color-blind.service";
 
 @Component({
   selector: 'app-theme-decade',
@@ -30,11 +31,13 @@ export class ThemeDecadeComponent extends LegoChartComponent implements OnInit {
     }
   };
 
+  constructor(private colorBlindService: ColorBlindService) {
+    super();
+  }
+
   ngOnInit(): void {
 
     d3.csv('assets/reduced_theme_decade.csv').then((data) => {
-       // set labels as years
-      this.barChartLabels = this.setDecades( data.map((d) => d['decade']));
 
       // Group data by parent theme, take some random themes
       const dataByTheme = this.setInitialDataByTheme(data);
@@ -43,8 +46,14 @@ export class ThemeDecadeComponent extends LegoChartComponent implements OnInit {
       this.currentThemes = ['Train', 'Space', 'Pirates', 'Castle'];
       const testData = this.currentThemes.map((t) => dataByTheme[t]);
 
-      // Make sure that the data corresponds with the correct decade, and that decades with no data have null values
-      this.barChartData = testData.map((d, i) => this.setData(d, this.themes.indexOf(d[0]['parent_theme_name'])));
+      this.colorBlindService.colorBlindModeOn$.subscribe((res) => {
+        this.colorBlindMode = res;
+        // set labels as years
+        this.barChartLabels = this.setDecades( data.map((d) => d['decade']));
+
+        // Make sure that the data corresponds with the correct decade, and that decades with no data have null values
+        this.barChartData = testData.map((d, i) => this.setData(d, this.themes.indexOf(d[0]['parent_theme_name']), res));
+      });
     });
   }
 
@@ -55,11 +64,11 @@ export class ThemeDecadeComponent extends LegoChartComponent implements OnInit {
     } else {
       this.dataOfTheme = this.data[theme];
       this.currentThemes.push(theme);
-      this.barChartData.push(this.setData(this.data[theme], this.themes.indexOf(theme)));
+      this.barChartData.push(this.setData(this.data[theme], this.themes.indexOf(theme), this.colorBlindMode));
     }
   }
 
-  setData(data: object[], colorIndex: number): object {
+  setData(data: object[], colorIndex: number, colorBlindMode: boolean): object {
     const newData = this.barChartLabels.map((y) => {
       const val = data.find((decadeData) => decadeData['decade'] === y);
       return !!val ? val['set_num'] : null;
@@ -68,7 +77,7 @@ export class ThemeDecadeComponent extends LegoChartComponent implements OnInit {
     return {
       data: newData,
       label: data[0]['parent_theme_name'],
-      backgroundColor: this.colors[colorIndex]['color'],
+      backgroundColor: this.setColorBlindMode(this.colors[colorIndex]['color'], colorIndex, false, colorBlindMode),
       borderColor: this.colors[colorIndex]['borderColor'],
       pointBackgroundColor: this.colors[colorIndex]['borderColor'],
       lineTension: 0

@@ -6,6 +6,7 @@ export abstract class LegoChartComponent {
   public data: object;
   public dataOfTheme: object;
   public themes: string[];
+  public colorBlindMode: boolean;
 
   public barChartOptions: object;
   public barChartLabels = [];
@@ -22,5 +23,18 @@ export abstract class LegoChartComponent {
   setDecades(decades: string[]): string[] {
     return decades.filter((y, i) => decades.indexOf(y) === i)
       .sort((a, b) => Number(a) - Number(b));
+  }
+
+  setColorBlindMode(color: string, i: number, isWhite: boolean, colorBlindMode: boolean): string | CanvasPattern {
+    if (colorBlindMode) {
+      const factorIndexPatterns = i / (this.patterns.length - 1);
+      const patternColor = isWhite ? 'black' : 'white';
+
+      if (factorIndexPatterns > 1) {
+        return draw(this.patterns[i - (this.patterns.length * Math.floor(factorIndexPatterns))], color, patternColor)
+      }
+      return draw(this.patterns[i], color, patternColor)
+    }
+    return color
   }
 }

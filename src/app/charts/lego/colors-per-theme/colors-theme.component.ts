@@ -3,7 +3,6 @@ import {chartFontColor} from "../../chart-data";
 import * as d3 from 'd3';
 import * as _ from 'lodash';
 import {LegoChartComponent} from "../lego-chart.component";
-import {draw} from "patternomaly";
 import {ColorBlindService} from "../../../services/color-blind.service";
 
 @Component({
@@ -16,13 +15,14 @@ export class ColorsThemeComponent extends LegoChartComponent implements OnInit {
   public currentTheme: string = 'Pirates';
   public decades: string[];
   public currentDecade: string = '1990';
+  public typingAnimation: boolean = true;
 
   public barChartOptions = {
     responsive: true,
     animation: {
       duration: 2000
     },
-    ...chartFontColor('', false, 'left')
+    ...chartFontColor('', false, 'left'),
   };
 
   constructor(private colorBlindService: ColorBlindService) {
@@ -47,6 +47,7 @@ export class ColorsThemeComponent extends LegoChartComponent implements OnInit {
       this.barChartLabels = this.setLabels(dataOfTheme, this.currentDecade);
 
       this.colorBlindService.colorBlindModeOn$.subscribe((res) => {
+        this.colorBlindMode = res;
         this.setData(dataOfTheme, this.currentDecade, res);
       });
     });
@@ -66,6 +67,10 @@ export class ColorsThemeComponent extends LegoChartComponent implements OnInit {
   }
 
   setTheme(theme: string): void {
+    // hacky way to re-fire the typing animation
+    this.typingAnimation = false;
+    setTimeout(() => {this.typingAnimation = true}, 100);
+
     this.currentTheme = theme;
     const newData = this.sortTheme(this.data[theme]);
     this.dataOfTheme = newData;
@@ -76,24 +81,20 @@ export class ColorsThemeComponent extends LegoChartComponent implements OnInit {
 
   setOtherDecade(decade: string): void {
     this.currentDecade = decade;
+    this.setData(this.dataOfTheme, decade, this.colorBlindMode);
     this.barChartLabels = this.setLabels(this.dataOfTheme, decade);
-    this.setData(this.dataOfTheme, decade);
   }
 
-  setData(data: object, decade: string, colorBlindMode: boolean = false): void {
+  setData(data: object, decade: string, colorBlindMode: boolean): void {
     this.barChartData = [{
       data: data[decade].map((d) => d['part_quantity']),
       backgroundColor: data[decade].map((d, i) => {
-        if (colorBlindMode) {
-          const factorIndexPatterns = i / (this.patterns.length - 1);
-          const patternColor = ['White', 'Trans-Clear'].includes(d['color_name']) ? 'black' : 'white';
-
-          if (factorIndexPatterns > 1) {
-            return draw(this.patterns[i - (this.patterns.length * Math.floor(factorIndexPatterns))], '#' + d['rgb'], patternColor)
-          }
-          return draw(this.patterns[i], '#' + d['rgb'], patternColor)
-        }
-        return '#' + d['rgb']
+        return this.setColorBlindMode(
+          '#' + d['rgb'],
+          i,
+          ['White', 'Trans-Clear'].includes(d['color_name']),
+          colorBlindMode
+        );
       }),
       borderWidth: 0
     }];
