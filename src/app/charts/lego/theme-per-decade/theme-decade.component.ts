@@ -70,7 +70,8 @@ export class ThemeDecadeComponent extends LegoChartComponent implements OnInit {
       label: data[0]['parent_theme_name'],
       backgroundColor: this.colors[colorIndex]['color'],
       borderColor: this.colors[colorIndex]['borderColor'],
-      pointBackgroundColor: this.colors[colorIndex]['borderColor']
+      pointBackgroundColor: this.colors[colorIndex]['borderColor'],
+      lineTension: 0
     };
   }
 }
