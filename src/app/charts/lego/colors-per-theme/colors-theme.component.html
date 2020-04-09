@@ -1,9 +1,9 @@
-<div class="container" *ngIf="barChartData.length != 0">
-  <button [ngClass]="{ 'mode-off': colorBlindMode }" (click)="toggleColorBlindMode()">{{ 'Turn colorblind mode ' + (colorBlindMode ? 'off' : 'on') }}</button>
-  <h1 class="chart-header">Total amount of colored parts of sets in a theme</h1>
-
+<div *ngIf="barChartLabels.length !== 0" class="container">
+  <h1 class="chart-header">Total amount of colored parts in Lego sets in a theme</h1>
   <div class="theme-buttons">
-    <button [ngClass]="{'focus': theme === currentTheme}" class="" *ngFor="let theme of themes" (click)="setTheme(theme)">{{ theme }}</button>
+    <button [ngClass]="{'focus': theme === currentTheme}" class="" *ngFor="let theme of themes" (click)="setTheme(theme)">
+      {{ theme }}
+    </button>
   </div>
 
   <div class="pie-container">
@@ -13,7 +13,9 @@
         <span>{{ decade }}</span>
       </button>
     </div>
-
+    <div class="type-effect">
+      <h2 *ngIf="typingAnimation" class="chart-header">{{ 'Theme: ' + currentTheme }}</h2>
+    </div>
     <canvas baseChart
             id="colors-theme"
             [datasets]="barChartData"
