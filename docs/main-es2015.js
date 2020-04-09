@@ -1157,7 +1157,8 @@ class ThemeDecadeComponent extends _lego_chart_component__WEBPACK_IMPORTED_MODUL
         else {
             this.dataOfTheme = this.data[theme];
             this.currentThemes.push(theme);
-            this.barChartData.push(this.setData(this.data[theme], this.themes.indexOf(theme), this.colorBlindMode));
+            // todo: activate cbm again when its clear which pattern fits with which button
+            this.barChartData.push(this.setData(this.data[theme], this.themes.indexOf(theme), /*this.colorBlindMode*/ false));
         }
     }
     setData(data, colorIndex, colorBlindMode) {
