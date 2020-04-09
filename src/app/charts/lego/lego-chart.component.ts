@@ -22,7 +22,7 @@ export abstract class LegoChartComponent {
 
   setDecades(decades: string[]): string[] {
     return decades.filter((y, i) => decades.indexOf(y) === i)
-      .sort((a, b) => Number(a) - Number(b));
+      .sort((a, b) => Number(a.slice(0, -1)) - Number(b.slice(0, -1)));
   }
 
   setColorBlindMode(color: string, i: number, isWhite: boolean, colorBlindMode: boolean): string | CanvasPattern {
