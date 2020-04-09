@@ -40,13 +40,13 @@ export class ColorsThemeComponent extends LegoChartComponent implements OnInit {
       themes.forEach((k) => dataByTheme[k] = _.groupBy(dataByTheme[k], d => d['decade']));
       this.data = dataByTheme;
 
-      const dataOfTheme = this.sortTheme(dataByTheme[this.currentTheme]);
-
-      this.dataOfTheme = dataOfTheme;
-      this.decades = this.setDecades(Object.keys(dataOfTheme));
-      this.barChartLabels = this.setLabels(dataOfTheme, this.currentDecade);
-
       this.colorBlindService.colorBlindModeOn$.subscribe((res) => {
+        const dataOfTheme = this.sortTheme(dataByTheme[this.currentTheme]);
+
+        this.dataOfTheme = dataOfTheme;
+        this.decades = this.setDecades(Object.keys(dataOfTheme));
+        this.barChartLabels = this.setLabels(dataOfTheme, this.currentDecade);
+
         this.colorBlindMode = res;
         this.setData(dataOfTheme, this.currentDecade, res);
       });

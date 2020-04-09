@@ -44,15 +44,17 @@ export class ThemeDecadeComponent extends LegoChartComponent implements OnInit {
       this.data = dataByTheme;
       this.themes = Object.keys(dataByTheme);
       this.currentThemes = ['Train', 'Space', 'Pirates', 'Castle'];
-      const testData = this.currentThemes.map((t) => dataByTheme[t]);
 
       this.colorBlindService.colorBlindModeOn$.subscribe((res) => {
         this.colorBlindMode = res;
+        const testData = this.currentThemes.map((t) => dataByTheme[t]);
+
         // set labels as years
         this.barChartLabels = this.setDecades( data.map((d) => d['decade']));
 
         // Make sure that the data corresponds with the correct decade, and that decades with no data have null values
-        this.barChartData = testData.map((d, i) => this.setData(d, this.themes.indexOf(d[0]['parent_theme_name']), res));
+        // todo: activate cbm again when its clear which pattern fits with which button
+        this.barChartData = testData.map((d, i) => this.setData(d, this.themes.indexOf(d[0]['parent_theme_name']), /*res*/ false));
       });
     });
   }
