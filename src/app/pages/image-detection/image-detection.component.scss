@@ -1,0 +1,59 @@
+@import "src/app/styles/globals";
+@import "src/app/styles/mixins";
+
+$image-red-dark: #7a4349;
+$image-red-light: rgba(249, 249, 249, 0.81);
+
+//:export {
+//  image-dark-red: $image-red-dark;
+//}
+
+.container {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+    url("~src/assets/img/tree-alley.png");
+  background-size: cover;
+
+  .content-wrapper {
+
+    .content {
+      @include center;
+
+      top: 52.5%;
+      width: 90%;
+      max-width: 30rem;
+      height: 80%;
+      background-color: $image-red-light;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .custom-file {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 2rem 0;
+
+        .custom-file-input {
+
+        }
+
+        label {
+          color: $image-red-dark;
+          font-family: 'Reenie Beanie', cursive;
+          font-size: 1.5rem;
+        }
+      }
+
+      img {
+        max-width: 90%;
+        max-height: 20rem;
+      }
+
+      .predictions {
+
+      }
+    }
+  }
+}

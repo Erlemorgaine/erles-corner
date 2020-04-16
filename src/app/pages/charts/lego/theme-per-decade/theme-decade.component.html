@@ -1,0 +1,30 @@
+<div *ngIf="barChartLabels.length !== 0" class="container">
+  <h1 class="chart-header">Amount of different Lego sets per theme</h1>
+  <div class="theme-buttons">
+    <button *ngFor="let theme of themes" [id]="theme + 'Button'"
+            (click)="setTheme(theme)"
+            [ngClass]="{'focus': currentThemes.includes(theme)}">
+      <div class="head">
+        <div class="head-top"></div>
+        <div class="eyes">
+          <div class="brow"></div>
+          <div class="eye"></div>
+          <div class="brow"></div>
+          <div class="eye"></div>
+        </div>
+        <div class="mouth"></div>
+        <div class="neck"></div>
+      </div>
+<!--      test accessibility-->
+      <label [for]="theme + 'Button'">{{ theme }}</label>
+    </button>
+  </div>
+  <canvas baseChart
+          id="theme-decade"
+          [datasets]="barChartData"
+          [labels]="barChartLabels"
+          [options]="barChartOptions"
+          [legend]="true"
+          [chartType]="'line'">
+  </canvas>
+</div>

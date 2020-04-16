@@ -1576,10 +1576,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   /***/
   "./src/app/charts/lego/lego-charts.component.ts":
   /*!******************************************************!*\
-    !*** ./src/app/charts/lego/lego-charts.component.ts ***!
+    !*** ./src/app/charts/lego/ufo-loom-graph.component.ts ***!
     \******************************************************/
 
-  /*! exports provided: LegoChartsComponent */
+  /*! exports provided: UfoLoomGraphComponent */
 
   /***/
   function srcAppChartsLegoLegoChartsComponentTs(module, __webpack_exports__, __webpack_require__) {
@@ -1650,8 +1650,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
           selector: 'app-lego-charts',
-          templateUrl: './lego-charts.component.html',
-          styleUrls: ['./lego-charts.component.scss']
+          templateUrl: './ufo-loom-graph.component.html',
+          styleUrls: ['./ufo-loom-graph.component.scss']
         }]
       }], null, null);
     })();

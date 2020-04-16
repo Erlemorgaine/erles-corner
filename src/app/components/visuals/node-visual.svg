@@ -1,0 +1,14 @@
+<svg>
+  <g [attr.transform]="'translate(' + node.x + ',' + node.y + ')'">
+    <circle
+      cx="0"
+      cy="0"
+      [attr.r]="node.radius">
+    </circle>
+    <text [attr.fill]="'#000000'"
+      text-anchor="middle">
+      {{ node.id }}
+    </text>
+  </g>
+</svg>
+
