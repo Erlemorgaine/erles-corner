@@ -23,6 +23,7 @@ import {ZoomableDirective} from "./directives/zoomable.directive";
 import {DraggableDirective} from "./directives/draggable.directive";
 import {D3ChartsComponent} from "./pages/charts/d3/d3-charts.component";
 import {UfoLoomGraphComponent} from "./pages/charts/d3/ufo-loom-graph/ufo-loom-graph.component";
+import {MouseOverDirective} from "./directives/mouseover.directive";
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import {UfoLoomGraphComponent} from "./pages/charts/d3/ufo-loom-graph/ufo-loom-g
     LinkVisualComponent,
     ZoomableDirective,
     DraggableDirective,
+    MouseOverDirective,
     D3ChartsComponent,
     UfoLoomGraphComponent
   ],

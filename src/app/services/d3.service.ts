@@ -46,7 +46,7 @@ export class D3Service {
 
       function ended() {
         if (!d3.event.active) {
-          graph.simulation.alphaTarget(0);
+          graph.simulation.alphaTarget(-0.2);
         }
       }
 
@@ -54,6 +54,38 @@ export class D3Service {
     }
 
     d3Element.call(d3.drag().on("start", started));
+  }
+
+  // TODO: MAKE IT WORK
+  // problem is that i have no access to the links here (is outside of element)
+  applyMouseOverBehaviour(element, node: Node, graph: ForceDirectedGraph) {
+    const d3Element = d3.select(element);
+
+    function fade(opacity) {
+      return d => {
+        graph.links = graph.links.map((l) => l.setHoverEffect(node));
+        graph.nodes = graph.nodes.map((n) => n.setHoverColor(isConnected(node, n)));
+      };
+    }
+
+    function mouseOut() {
+      graph.nodes = graph.nodes.map((n) => n.restoreAfterHover());
+      graph.links = graph.links.map((l) => l.restoreAfterHover());
+    }
+
+    function isConnected(a, b) {
+      return linkedByIndex[`${a.index},${b.index}`] || linkedByIndex[`${b.index},${a.index}`] || a.index === b.index;
+    }
+
+    const linkedByIndex = {};
+
+    graph.links.forEach(d => {
+      linkedByIndex[`${d.source.index},${d.target.index}`] = 1;
+    });
+
+    d3Element
+      .on('mouseover.fade', fade(0.1))
+      .on('mouseout', mouseOut);
   }
 
   /** The interactable graph we will simulate in this article

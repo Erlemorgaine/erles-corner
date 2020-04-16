@@ -1,11 +1,16 @@
-<div>
+<div *ngIf="graph | async as g" class="container">
+  <div class="questions">
+    <div *ngFor="let q of questions">{{ q[1] }}</div>
+  </div>
   <svg #svg [attr.width]="_options.width" [attr.height]="_options.height">
     <g [zoomableOf]="svg">
       <g *ngFor="let link of links" [linkVisual]="link"></g>
       <g *ngFor="let node of nodes"
          [nodeVisual]="node"
          [draggableNode]="node"
-         [draggableInGraph]="graph">
+         [draggableInGraph]="g"
+         [mouseOverNode]="node"
+         [mouseOverInGraph]="g">
       </g>
     </g>
   </svg>

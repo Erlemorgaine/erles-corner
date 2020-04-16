@@ -5,6 +5,7 @@ import {ForceDirectedGraph} from "../../../../models/d3/force-directed-graph";
 import {D3Service} from "../../../../services/d3.service";
 import * as d3 from "d3";
 import * as _ from 'lodash';
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-force-directed-graph',
@@ -13,10 +14,16 @@ import * as _ from 'lodash';
 })
 export class ForceDirectedGraphComponent implements OnInit, AfterViewInit {
 
-  @Input() nodes: Node[] = [];
-  @Input() links: Link[] = [];
+  nodes: Node[] = [];
+  links: Link[] = [];
+  questions: string[][] = [
+    ['taking_serious_mh_ph', 'Do you feel that your employer takes mental health as seriously as physical health?'],
+    ['having_mhi_hurts_career', 'Do you feel that being identified as a person with a mental health issue would hurt your career?'],
+    ['discussing_mhd_neg_cons', 'Do you think that discussing a mental health disorder with your employer would have negative consequences?'],
+    ['discussing_phi_neg_cons', 'Do you think that discussing a physical health issue with your employer would have negative consequences?']
+  ];
 
-  graph: ForceDirectedGraph;
+  graph: BehaviorSubject<ForceDirectedGraph> = new BehaviorSubject(null);
   _options: { width, height } = { width: 800, height: 600 };
 
   get options() {
@@ -29,12 +36,11 @@ export class ForceDirectedGraphComponent implements OnInit, AfterViewInit {
   constructor(private d3Service: D3Service, private changeDetectorRef: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    this.graph = this.d3Service.getForceDirectedGraph(this.nodes, this.links, this._options);
     const colors = {
-      'taking_serious_mh_ph':'#ee9999',
-      'having_mhi_hurts_career':'#99ccee',
-      'discussing_mhd_neg_cons':'#a999ee',
-      'discussing_phi_neg_cons':'#eecf99'
+      [this.questions[0][0]]: ['#5e2020', '#a53838'],
+      [this.questions[1][0]]: ['#08283e', '#115b8e'],
+      [this.questions[2][0]]: ['#130845', '#3b17cd'],
+      [this.questions[3][0]]: ['#65440b', '#c78417']
     };
     const questions = Object.keys(colors);
 
@@ -50,15 +56,12 @@ export class ForceDirectedGraphComponent implements OnInit, AfterViewInit {
               return a + Number(b['amount'])
             }, 0);
 
-            const radius = (amountAnswered / 9) + (10 - (amountAnswered / 300));
             return Object.assign(
-              new Node(d, questions[i1], radius, colors[questions[i1]]),
-              {x: 200 * (i2 + 1), y: 150 * (i1 + 1) - 50, vx: 0, vy: 0}
+              new Node(d, questions[i1], amountAnswered, colors[questions[i1]][0]),
+              {x: 200 * (i2 + 1), y: 180 * (i1 + 1) - 50, vx: 0, vy: 0}
               );
           });
 
-          // todo: nodes for different questions should have different colors
-          // todo: show entire text, and space in a good way
           this.nodes = this.nodes.concat(nodes);
 
           // else condition is only entered when all nodes are made
@@ -82,14 +85,14 @@ export class ForceDirectedGraphComponent implements OnInit, AfterViewInit {
                 Object.keys(answerCounts).forEach((a) => {
                   const secondNode = nodesToSearch.find((n2) => n2.group === q && n2.id === a);
 
-                  // todo: also determine thickness of line by amount of same answers
                   // todo: when hovering over a node, highlight connections
                   if (secondNode) {
                     this.links.push(new Link(
                       this.links.length,
                       node,
                       secondNode,
-                      [colors[node.group], colors[secondNode.group]]
+                      [colors[node.group][1], colors[secondNode.group][1]],
+                      answerCounts[a]
                     ));
                   }
                 });
@@ -100,11 +103,17 @@ export class ForceDirectedGraphComponent implements OnInit, AfterViewInit {
           });
         }
       });
+
+      this.graph.next(this.d3Service.getForceDirectedGraph(this.nodes, this.links, this._options));
     });
   }
 
   ngAfterViewInit(): void {
-    this.graph.initSimulation(this.options);
-    this.changeDetectorRef.detectChanges();
+    this.graph.subscribe((g) => {
+      if (g) {
+        g.initSimulation(this.options);
+        this.changeDetectorRef.detectChanges();
+      }
+    })
   }
 }

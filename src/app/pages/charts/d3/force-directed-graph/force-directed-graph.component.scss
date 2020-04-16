@@ -1,8 +1,42 @@
-div {
+@import "src/app/styles/mixins";
+
+$color-1: #5e2020;
+$color-2: #08283e;
+$color-3: #130845;
+$color-4: #65440b;
+
+$colors:
+  1 $color-1,
+  2 $color-2,
+  3 $color-3,
+  4 $color-4;
+
+@keyframes fadeIn {
+  from { opacity: 0 }
+  to { opacity: 1 }
+}
+
+.container {
   display: grid;
   place-items: center;
+  font-family: 'Roboto Condensed', sans-serif;
+
+  .questions {
+    width: 80%;
+    display: flex;
+
+    @each $i, $color in $colors {
+      > div:nth-child(#{$i}) {
+        background-color: $color;
+        border-radius: 3px;
+        padding: .25rem .5rem;
+        margin: 1rem .5rem 0 .5rem;
+      }
+    }
+  }
 
   svg {
     width: 80%;
+    animation: fadeIn 2s;
   }
 }
