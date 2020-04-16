@@ -1,5 +1,5 @@
 <div>
-  <svg #svg [attr.width]="_options.width" [attr.height]="_options.height" [attr.fill]="'#f5a345'">
+  <svg #svg [attr.width]="_options.width" [attr.height]="_options.height">
     <g [zoomableOf]="svg">
       <g *ngFor="let link of links" [linkVisual]="link"></g>
       <g *ngFor="let node of nodes"

@@ -3,7 +3,8 @@
     <circle
       cx="0"
       cy="0"
-      [attr.r]="node.radius">
+      [attr.r]="node.radius"
+      [attr.fill]="node.color">
     </circle>
     <text [attr.fill]="'#000000'"
       text-anchor="middle">

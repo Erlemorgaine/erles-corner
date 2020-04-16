@@ -10,11 +10,13 @@ export class Node implements d3.SimulationNodeDatum {
   vy?: number;
   fx?: number | null;
   fy?: number | null;
-  radius?: string;
+  radius: string;
+  color: string;
 
-  constructor(id, group, radius) {
+  constructor(id, group, radius, color) {
     this.id = id;
     this.group = group;
     this.radius = radius;
+    this.color = color;
   }
 }

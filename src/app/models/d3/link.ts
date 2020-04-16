@@ -5,9 +5,12 @@ export class Link implements d3.SimulationLinkDatum<Node> {
   index?: number;
   source: Node;
   target: Node;
+  colors: [string, string];
 
-  constructor(source, target) {
+  constructor(index, source, target, colors) {
+    this.index = index;
     this.source = source;
     this.target = target;
+    this.colors = colors;
   }
 }

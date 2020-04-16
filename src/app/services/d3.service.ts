@@ -40,17 +40,14 @@ export class D3Service {
       }
 
       function dragged() {
-        node.fx = d3.event.x;
-        node.fy = d3.event.y;
+        node.x = d3.event.x;
+        node.y = d3.event.y;
       }
 
       function ended() {
         if (!d3.event.active) {
           graph.simulation.alphaTarget(0);
         }
-
-        node.fx = null;
-        node.fy = null;
       }
 
       d3.event.on("drag", dragged).on("end", ended);
