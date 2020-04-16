@@ -1,4 +1,4 @@
-import {Directive, ElementRef, Input, OnInit} from "@angular/core";
+import {Directive, ElementRef, EventEmitter, HostListener, Input, OnInit, Output} from "@angular/core";
 import {D3Service} from "../services/d3.service";
 import {ForceDirectedGraph} from "../models/d3/force-directed-graph";
 import { Node } from '../models/d3/node';
@@ -9,6 +9,12 @@ import { Node } from '../models/d3/node';
 export class MouseOverDirective implements OnInit {
   @Input('mouseOverNode') mouseOverNode: Node;
   @Input('mouseOverInGraph') mouseOverInGraph: ForceDirectedGraph;
+
+  @Output('mouseOver') mouseOver: EventEmitter<string> = new EventEmitter<string>();
+
+  @HostListener('mouseover') onMouseOver() {
+    this.mouseOver.emit(this.mouseOverNode.group);
+  }
 
   constructor(private d3Service: D3Service, private _element: ElementRef) {}
 

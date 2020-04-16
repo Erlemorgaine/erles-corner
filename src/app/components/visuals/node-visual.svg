@@ -4,20 +4,33 @@
       <filter [id]="node.group + '_' + node.radius" x="-50%" y="-50%" width="200%" height="200%">
         <feOffset result="offOut" in="SourceGraphic" dx="0" dy="0" />
         <feColorMatrix result="matrixOut" in="offOut" type="matrix"
-                       values="40 0 0 0 0 0 40 0 0 0 0 0 40 0 0 0 0 0 1 0" />
+                       values="40 0 0 0 0
+                               0 40 0 0 0
+                               0 0 40 0 0
+                               0 0 0 1 0" />
         <feGaussianBlur result="blurOut" in="matrixOut" stdDeviation="10" />
         <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
       </filter>
+
+      <filter [id]="'hover_' + node.radius" x="-50%" y="-50%" width="200%" height="200%">
+        <feColorMatrix result="matrixOut" in="offOut" type="matrix"
+                       values="10 0 0 0 0
+                               0 5 0 0 0
+                               0 0 5 0 0
+                               0 0 0 1 0" />
+      </filter>
     </defs>
-    <circle
-      cx="0"
-      cy="0"
-      [attr.r]="node.radius"
-      [attr.fill]="node.color"
-      [attr.opacity]="node.opacity"
-      [attr.filter]="'url(#' + node.group + '_' + node.radius + ')'">
-    </circle>
-    <text [attr.fill]="'#ffffff'"
+    <g [attr.filter]="node.hover && node.connected ? 'url(#hover_' + node.radius + ')' : ''">
+      <circle
+        cx="0"
+        cy="0"
+        [attr.r]="node.radius"
+        [attr.fill]="node.color"
+        [attr.opacity]="node.hover && !node.connected ? .5 : 1"
+        [attr.filter]="'url(#' + node.group + '_' + node.radius + ')'">
+      </circle>
+    </g>
+    <text [attr.fill]="'#ffffff'" [attr.opacity]="node.hover && !node.connected ? .5 : 1"
       text-anchor="middle">
       {{ node.id }}
     </text>

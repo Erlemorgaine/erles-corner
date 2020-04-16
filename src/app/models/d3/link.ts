@@ -6,8 +6,9 @@ export class Link implements d3.SimulationLinkDatum<Node> {
   source: Node;
   target: Node;
   colors: [string, string];
-  colorsBackup: [string, string];
   amountForLink: number;
+  hover: boolean = false;
+  connecting: boolean = false;
 
   constructor(index, source, target, colors, amountForLink = 1) {
     this.index = index;
@@ -18,17 +19,17 @@ export class Link implements d3.SimulationLinkDatum<Node> {
   }
 
   setHoverEffect(node: Node): Link {
-    this.colorsBackup = this.colors;
-
+    this.hover = true;
     if (this.source === node || this.target === node) {
-      this.colors = ['#ffffff', '#ffffff'];
+      this.connecting = true;
     }
 
     return this;
   }
 
   restoreAfterHover(): Link {
-    this.colors = this.colorsBackup;
+    this.hover = false;
+    this.connecting = false;
     return this;
   }
 }

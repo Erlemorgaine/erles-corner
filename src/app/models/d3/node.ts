@@ -13,8 +13,8 @@ export class Node implements d3.SimulationNodeDatum {
   amountAnswered: number;
   radius: string;
   color: string;
-  colorBackup: string;
-  opacity: number = 1;
+  hover: boolean;
+  connected: boolean;
 
   constructor(id, group, amountAnswered, color) {
     this.id = id;
@@ -29,17 +29,15 @@ export class Node implements d3.SimulationNodeDatum {
     this.radius = ((amountAnswered / 9) + (10 - (amountAnswered / 300))).toString();
   }
 
-  setHoverColor(connected: boolean): Node {
-    this.colorBackup = this.color;
-
-    this.color = connected ? '#ffffff' : this.color;
-    this.opacity = connected ? 1 : .5;
+  setHoverEffect(connected: boolean): Node {
+    this.hover = true;
+    this.connected = connected;
     return this;
   }
 
   restoreAfterHover(): Node {
-    this.color = this.colorBackup;
-    this.opacity = 1;
+    this.hover = false;
+    this.connected = false;
     return this;
   }
 }

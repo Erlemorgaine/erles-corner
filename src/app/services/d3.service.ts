@@ -64,7 +64,7 @@ export class D3Service {
     function fade(opacity) {
       return d => {
         graph.links = graph.links.map((l) => l.setHoverEffect(node));
-        graph.nodes = graph.nodes.map((n) => n.setHoverColor(isConnected(node, n)));
+        graph.nodes = graph.nodes.map((n) => n.setHoverEffect(isConnected(node, n)));
       };
     }
 

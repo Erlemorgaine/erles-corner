@@ -23,6 +23,14 @@ export class ForceDirectedGraphComponent implements OnInit, AfterViewInit {
     ['discussing_phi_neg_cons', 'Do you think that discussing a physical health issue with your employer would have negative consequences?']
   ];
 
+  colors: {} = {
+    [this.questions[0][0]]: ['#8b2020', '#a53848'],
+    [this.questions[1][0]]: ['#0a4a76', '#115b8e'],
+    [this.questions[2][0]]: ['#1c067b', '#3b17cd'],
+    [this.questions[3][0]]: ['#9a3f08', '#c75d17']
+  };
+
+  hoverGroup: string;
   graph: BehaviorSubject<ForceDirectedGraph> = new BehaviorSubject(null);
   _options: { width, height } = { width: 800, height: 600 };
 
@@ -36,13 +44,7 @@ export class ForceDirectedGraphComponent implements OnInit, AfterViewInit {
   constructor(private d3Service: D3Service, private changeDetectorRef: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    const colors = {
-      [this.questions[0][0]]: ['#5e2020', '#a53838'],
-      [this.questions[1][0]]: ['#08283e', '#115b8e'],
-      [this.questions[2][0]]: ['#130845', '#3b17cd'],
-      [this.questions[3][0]]: ['#65440b', '#c78417']
-    };
-    const questions = Object.keys(colors);
+    const questions = Object.keys(this.colors);
 
     Promise.all(
       questions.map((q) => d3.csv(`assets/mental-health/${q}.csv`))
@@ -57,7 +59,7 @@ export class ForceDirectedGraphComponent implements OnInit, AfterViewInit {
             }, 0);
 
             return Object.assign(
-              new Node(d, questions[i1], amountAnswered, colors[questions[i1]][0]),
+              new Node(d, questions[i1], amountAnswered, this.colors[questions[i1]][0]),
               {x: 200 * (i2 + 1), y: 180 * (i1 + 1) - 50, vx: 0, vy: 0}
               );
           });
@@ -91,7 +93,7 @@ export class ForceDirectedGraphComponent implements OnInit, AfterViewInit {
                       this.links.length,
                       node,
                       secondNode,
-                      [colors[node.group][1], colors[secondNode.group][1]],
+                      [this.colors[node.group][1], this.colors[secondNode.group][1]],
                       answerCounts[a]
                     ));
                   }
@@ -115,5 +117,9 @@ export class ForceDirectedGraphComponent implements OnInit, AfterViewInit {
         this.changeDetectorRef.detectChanges();
       }
     })
+  }
+
+  highlightQuestion(group: string): void {
+    this.hoverGroup = group;
   }
 }

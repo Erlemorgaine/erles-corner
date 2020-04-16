@@ -1,4 +1,4 @@
-import { EventEmitter } from '@angular/core';
+import {ElementRef, EventEmitter, ViewChild} from '@angular/core';
 import { Link } from './link';
 import { Node } from './node';
 import * as d3 from 'd3';

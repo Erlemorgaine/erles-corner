@@ -10,7 +10,8 @@
          [draggableNode]="node"
          [draggableInGraph]="g"
          [mouseOverNode]="node"
-         [mouseOverInGraph]="g">
+         [mouseOverInGraph]="g"
+         (mouseOver)="highlightQuestion($event)">
       </g>
     </g>
   </svg>
