@@ -2,7 +2,7 @@
   <div class="questions">
     <div *ngFor="let q of questions">{{ q[1] }}</div>
   </div>
-  <svg #svg [attr.width]="_options.width" [attr.height]="_options.height">
+  <svg #svg>
     <g [zoomableOf]="svg">
       <g *ngFor="let link of links" [linkVisual]="link"></g>
       <g *ngFor="let node of nodes"

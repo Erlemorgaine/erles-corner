@@ -59,7 +59,7 @@ export class ForceDirectedGraph {
       this.initLinks();
     }
 
-    this.simulation.force("centers", d3.forceCenter(options.width / 3, options.height / 2.5));
+    this.simulation.force("centers", d3.forceCenter(options.width / 2.5, options.height / 2));
     this.simulation.restart();
   }
 }
