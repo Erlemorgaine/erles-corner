@@ -1,18 +1,22 @@
 <div *ngIf="graph | async as g" class="container">
-  <div class="questions">
-    <div *ngFor="let q of questions">{{ q[1] }}</div>
-  </div>
-  <svg #svg>
-    <g [zoomableOf]="svg">
-      <g *ngFor="let link of links" [linkVisual]="link"></g>
-      <g *ngFor="let node of nodes"
-         [nodeVisual]="node"
-         [draggableNode]="node"
-         [draggableInGraph]="g"
-         [mouseOverNode]="node"
-         [mouseOverInGraph]="g"
-         (mouseOver)="highlightQuestion($event)">
+  <h1 class="chart-header">Questions from a mental health survey for tech industry personnel</h1>
+  <h2 class="chart-header">(Respondents: 973)</h2>
+  <div class="graph-wrapper">
+    <div class="questions">
+      <div *ngFor="let q of questions">{{ q[1] }}</div>
+    </div>
+    <svg #svg>
+      <g [zoomableOf]="svg">
+        <g *ngFor="let link of links" [linkVisual]="link"></g>
+        <g *ngFor="let node of nodes"
+           [nodeVisual]="node"
+           [draggableNode]="node"
+           [draggableInGraph]="g"
+           [mouseOverNode]="node"
+           [mouseOverInGraph]="g"
+           (mouseOver)="highlightQuestion($event)">
+        </g>
       </g>
-    </g>
-  </svg>
+    </svg>
+  </div>
 </div>

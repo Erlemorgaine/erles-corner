@@ -17,28 +17,41 @@ $colors:
 }
 
 .container {
-  display: flex;
   font-family: 'Roboto Condensed', sans-serif;
   width: 80%;
   margin: 2rem auto;
 
-  .questions {
-    display: flex;
-    flex-direction: column;
-    width: 20%;
-
-    @each $i, $color in $colors {
-      > div:nth-child(#{$i}) {
-        background-color: $color;
-        border-radius: 3px;
-        padding: .25rem .5rem;
-        margin: 2rem .5rem 0 .5rem;
-      }
-    }
+  h1 {
+    margin: 0;
+    display: inline-block;
   }
 
-  svg {
-    animation: fadeIn 2s;
-    width: 100%;
+  h2 {
+    font-family: 'Roboto Condensed', sans-serif;
+  }
+
+  .graph-wrapper {
+    display: flex;
+    height: 100%;
+
+    .questions {
+      display: flex;
+      flex-direction: column;
+      width: 20%;
+
+      @each $i, $color in $colors {
+        > div:nth-child(#{$i}) {
+          background-color: $color;
+          border-radius: 3px;
+          padding: .25rem .5rem;
+          margin: 2rem .5rem 0 0;
+        }
+      }
+    }
+
+    svg {
+      animation: fadeIn 2s;
+      width: 100%;
+    }
   }
 }
