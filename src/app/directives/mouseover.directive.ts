@@ -16,6 +16,10 @@ export class MouseOverDirective implements OnInit {
     this.mouseOver.emit(this.mouseOverNode.group);
   }
 
+  @HostListener('mouseout') onMouseOut() {
+    this.mouseOver.emit(null);
+  }
+
   constructor(private d3Service: D3Service, private _element: ElementRef) {}
 
   ngOnInit(): void {

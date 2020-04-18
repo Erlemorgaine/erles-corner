@@ -24,10 +24,10 @@ export class ForceDirectedGraphComponent implements OnInit, AfterViewInit {
   ];
 
   colors: {} = {
-    [this.questions[0][0]]: ['#8b2020', '#a53848'],
-    [this.questions[1][0]]: ['#0a4a76', '#115b8e'],
-    [this.questions[2][0]]: ['#1c067b', '#3b17cd'],
-    [this.questions[3][0]]: ['#9a3f08', '#c75d17']
+    [this.questions[0][0]]: ['#8b2020', '#e42e2d'],
+    [this.questions[1][0]]: ['#0a4a76', '#2f76ce'],
+    [this.questions[2][0]]: ['#1c067b', '#5B00FE'],
+    [this.questions[3][0]]: ['#9a3f08', '#e77008']
   };
 
   hoverGroup: string;
@@ -52,7 +52,7 @@ export class ForceDirectedGraphComponent implements OnInit, AfterViewInit {
             }, 0);
 
             return Object.assign(
-              new Node(d, questions[i1], amountAnswered, this.colors[questions[i1]][0]),
+              new Node(d, questions[i1], amountAnswered, this.colors[questions[i1]][0], this.colors[questions[i1]][1]),
               {x: 200 * (i2 + 1), y: 180 * (i1 + 1) - 50, vx: 0, vy: 0}
               );
           });
@@ -86,7 +86,7 @@ export class ForceDirectedGraphComponent implements OnInit, AfterViewInit {
                       this.links.length,
                       node,
                       secondNode,
-                      [this.colors[node.group][1], this.colors[secondNode.group][1]],
+                      [this.colors[node.group][0], this.colors[secondNode.group][0]],
                       answerCounts[a]
                     ));
                   }

@@ -13,14 +13,16 @@ export class Node implements d3.SimulationNodeDatum {
   amountAnswered: number;
   radius: string;
   color: string;
+  hoverColor: string;
   hover: boolean;
   connected: boolean;
 
-  constructor(id, group, amountAnswered, color) {
+  constructor(id, group, amountAnswered, color, hoverColor) {
     this.id = id;
     this.group = group;
     this.amountAnswered = amountAnswered;
     this.color = color;
+    this.hoverColor = hoverColor;
 
     this.calculateRadius(amountAnswered);
   }

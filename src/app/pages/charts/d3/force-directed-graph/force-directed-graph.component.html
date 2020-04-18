@@ -3,7 +3,10 @@
   <h2 class="chart-header">(Respondents: 973)</h2>
   <div class="graph-wrapper">
     <div class="questions">
-      <div *ngFor="let q of questions">{{ q[1] }}</div>
+      <div *ngFor="let q of questions"
+           [ngStyle]="{backgroundColor: !!hoverGroup && hoverGroup === q[0] ? colors[q[0]][1] : colors[q[0]][0]}">
+        {{ q[1] }}
+      </div>
     </div>
     <svg #svg>
       <g [zoomableOf]="svg">
@@ -18,5 +21,7 @@
         </g>
       </g>
     </svg>
+
+    <div class="fdg-node-tooltip">TEST</div>
   </div>
 </div>

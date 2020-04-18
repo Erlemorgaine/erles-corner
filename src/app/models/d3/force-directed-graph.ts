@@ -9,6 +9,8 @@ const FORCES = {
   CHARGE: 0
 };
 
+export const respondents = 973;
+
 export class ForceDirectedGraph {
   public ticker: EventEmitter<d3.Simulation<Node, Link>> = new EventEmitter();
   public simulation: d3.Simulation<any, any>;
@@ -59,7 +61,7 @@ export class ForceDirectedGraph {
       this.initLinks();
     }
 
-    this.simulation.force("centers", d3.forceCenter(options.width / 2.5, options.height / 2.25));
+    this.simulation.force("centers", d3.forceCenter(options.width / 2, options.height / 2.25));
     this.simulation.restart();
   }
 }

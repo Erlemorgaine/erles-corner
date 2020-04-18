@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import * as d3 from 'd3';
 import {Link} from "../models/d3/link";
 import {Node} from "../models/d3/node";
-import {ForceDirectedGraph} from "../models/d3/force-directed-graph";
+import {ForceDirectedGraph, respondents} from "../models/d3/force-directed-graph";
 
 @Injectable({
   providedIn: 'root',
@@ -60,12 +60,11 @@ export class D3Service {
   // problem is that i have no access to the links here (is outside of element)
   applyMouseOverBehaviour(element, node: Node, graph: ForceDirectedGraph) {
     const d3Element = d3.select(element);
+    const tooltip = d3.select(".fdg-node-tooltip")
 
-    function fade(opacity) {
-      return d => {
-        graph.links = graph.links.map((l) => l.setHoverEffect(node));
-        graph.nodes = graph.nodes.map((n) => n.setHoverEffect(isConnected(node, n)));
-      };
+    function fade() {
+      graph.links = graph.links.map((l) => l.setHoverEffect(node));
+      graph.nodes = graph.nodes.map((n) => n.setHoverEffect(isConnected(node, n)));
     }
 
     function mouseOut() {
@@ -84,8 +83,22 @@ export class D3Service {
     });
 
     d3Element
-      .on('mouseover.fade', fade(0.1))
-      .on('mouseout', mouseOut);
+      .on('mouseover.fade', fade)
+      .on('mouseout', mouseOut)
+      .on('mouseover.tooltip', (d) => {
+
+        tooltip.transition()
+          .duration(200)
+          .style("opacity", 1);
+        tooltip.html(Math.round(node.amountAnswered / respondents * 100) + "%")
+          .style("left", (node.x + window.innerWidth * .122) + "px")
+          .style("top", (node.y + 12) + "px");
+      })
+      .on("mouseout.tooltip", () => {
+        tooltip.transition()
+          .duration(100)
+          .style("opacity", 0);
+      })
   }
 
   /** The interactable graph we will simulate in this article

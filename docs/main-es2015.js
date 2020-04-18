@@ -968,7 +968,7 @@ LegoChartsComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefi
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
                 selector: 'app-lego-charts',
-                templateUrl: './ufo-loom-graph.component.html',
+                templateUrl: './ufo-loom-graph.component.svg',
                 styleUrls: ['./ufo-loom-graph.component.scss']
             }]
     }], null, null); })();

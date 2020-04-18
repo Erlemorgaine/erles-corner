@@ -11,29 +11,23 @@
         <feGaussianBlur result="blurOut" in="matrixOut" stdDeviation="10" />
         <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
       </filter>
-
-      <filter [id]="'hover_' + node.radius" x="-50%" y="-50%" width="200%" height="200%">
-        <feColorMatrix result="matrixOut" in="offOut" type="matrix"
-                       values="10 0 0 0 0
-                               0 5 0 0 0
-                               0 0 5 0 0
-                               0 0 0 1 0" />
-      </filter>
     </defs>
-    <g [attr.filter]="node.hover && node.connected ? 'url(#hover_' + node.radius + ')' : ''">
+    <g>
       <circle
         cx="0"
         cy="0"
         [attr.r]="node.radius"
-        [attr.fill]="node.color"
+        [attr.fill]="node.hover && node.connected ? node.hoverColor : node.color"
         [attr.opacity]="node.hover && !node.connected ? .5 : 1"
+        [attr.cursor]="'move'"
         [attr.filter]="'url(#' + node.group + '_' + node.radius + ')'">
       </circle>
     </g>
-    <text [attr.fill]="'#ffffff'" [attr.opacity]="node.hover && !node.connected ? .5 : 1"
-      text-anchor="middle">
+    <text [attr.fill]="'#ffffff'"
+          [attr.opacity]="node.hover && !node.connected ? .5 : 1"
+          [attr.cursor]="'move'"
+          text-anchor="middle">
       {{ node.id }}
     </text>
   </g>
 </svg>
-
