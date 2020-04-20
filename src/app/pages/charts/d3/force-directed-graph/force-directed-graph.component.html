@@ -1,0 +1,29 @@
+<div *ngIf="graph$ | async as graph" class="container">
+  <h1 class="chart-header">Questions from a mental health survey for tech industry personnel</h1>
+  <h2 class="chart-header">(Respondents: 973)</h2>
+  <div class="graph-wrapper">
+    <div class="questions">
+      <div *ngFor="let q of questions"
+           [mouseOverQuestion]="q[0]"
+           [mouseOverInGraph]="graph"
+           [ngStyle]="{backgroundColor: !!hoverGroup && hoverGroup === q[0] ? colors[q[0]][1] : colors[q[0]][0]}">
+        {{ q[1] }}
+      </div>
+    </div>
+    <svg #svg>
+      <g [zoomableOf]="svg">
+        <g *ngFor="let link of links" [linkVisual]="link"></g>
+        <g *ngFor="let node of nodes"
+           [nodeVisual]="node"
+           [draggableNode]="node"
+           [draggableInGraph]="graph"
+           [mouseOverNode]="node"
+           [mouseOverInGraph]="graph"
+           (mouseOver)="highlightQuestion($event)">
+        </g>
+      </g>
+    </svg>
+
+    <div class="fdg-node-tooltip">TEST</div>
+  </div>
+</div>

@@ -1,0 +1,65 @@
+@import "src/app/styles/mixins";
+@import "src/app/styles/animations";
+
+$color-1: #8b2020;
+$color-2: #0a4a76;
+$color-3: #1c067b;
+$color-4: #9a3f08;
+
+$colors:
+  1 $color-1,
+  2 $color-2,
+  3 $color-3,
+  4 $color-4;
+
+.container {
+  width: 80%;
+  margin: 2rem auto 0 auto;
+
+  h1 {
+    margin: 0;
+    display: inline-block;
+  }
+
+  h2 {
+    font-family: 'Roboto Condensed', sans-serif;
+    margin-bottom: 2rem;
+  }
+
+  .graph-wrapper {
+    position: relative;
+    display: flex;
+    height: 80%;
+    overflow: scroll;
+
+    .questions {
+      display: flex;
+      flex-direction: column;
+      width: 20%;
+
+      > div {
+        border-radius: 3px;
+        padding: .5rem;
+        margin: 1.5rem .5rem 0 0;
+      }
+    }
+
+    svg {
+      animation: fadeIn 2s;
+      width: 100%;
+    }
+
+    $perc-label-color: #1d1d1d;
+
+    .fdg-node-tooltip {
+      position: absolute;
+      opacity: 0;
+      background-color: $perc-label-color;
+      padding: .15rem .45rem;
+      border-radius: 3px;
+      pointer-events: none;
+      font-family: 'Do Hyeon', sans-serif;
+      font-size: 1rem;
+    }
+  }
+}

@@ -1,0 +1,56 @@
+@import "src/app/styles/animations";
+
+$btn-colors:
+  1 #194AAA,
+  2 #48693e,
+  3 #b14b18;
+
+@mixin shadow($color) {
+  box-shadow: 2px 2px 2px 2px $color, -2px -2px 2px 2px $color;
+}
+
+h1 {
+  margin-bottom: 2rem;
+}
+
+.size-btns {
+  display: flex;
+  justify-content: center;
+  animation: fadeIn 3s;
+
+  button {
+    margin: 0 1rem;
+    color: white;
+    padding: .75rem 1rem;
+    border-radius: 10px;
+    font-family: 'Reenie Beanie', cursive;
+    font-size: 1.3rem;
+
+    @each $i, $color in $btn-colors {
+      &:nth-child(#{$i}) {
+        @include shadow($color);
+        background-color: $color;
+
+        &:hover {
+          @include shadow(lighten($color, 10));
+          background-color: lighten($color, 10);
+        }
+      }
+    }
+
+    &.focus {
+      @include shadow(#363131);
+      background-color: #363131;
+    }
+  }
+}
+
+.ufo-graph {
+  width: 100%;
+
+  ::ng-deep &-small, ::ng-deep &-medium, ::ng-deep &-large {
+    animation: fadeIn 2s;
+    display: block;
+    margin: 0 auto;
+  }
+}

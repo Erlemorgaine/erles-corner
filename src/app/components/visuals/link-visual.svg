@@ -1,0 +1,35 @@
+<svg>
+  <defs>
+    <linearGradient [id]="'color-' + link.index"
+                    [attr.x1]="link.source.x"
+                    [attr.y1]="link.source.y"
+                    [attr.x2]="link.target.x"
+                    [attr.y2]="link.target.y"
+                    gradientUnits="userSpaceOnUse">
+      <stop [attr.stop-color]="link.colors[0]" offset="0" />
+      <stop [attr.stop-color]="link.colors[1]" offset="1" />
+    </linearGradient>
+
+    <filter [id]="'hover_' + link.index"
+            [attr.x1]="link.source.x"
+            [attr.y1]="link.source.y"
+            [attr.x2]="link.target.x"
+            [attr.y2]="link.target.y">
+      <feColorMatrix result="matrixOut" in="offOut" type="matrix"
+                     values="20 0 0 0 0
+                               0 10 0 0 0
+                               0 0 10 0 0
+                               0 0 0 1 0" />
+    </filter>
+  </defs>
+  <line
+    [attr.filter]="link.hover && link.connecting ? 'url(#hover_' + link.index + ')' : ''"
+    [attr.stroke]="'url(#color-' + link.index + ')'"
+    [attr.stroke-width]="link.amountForLink / 10"
+    [attr.stroke-opacity]="link.hover && !link.connecting ? .3 : .8"
+    [attr.x1]="link.source.x"
+    [attr.y1]="link.source.y"
+    [attr.x2]="link.target.x"
+    [attr.y2]="link.target.y">
+  </line>
+</svg>
