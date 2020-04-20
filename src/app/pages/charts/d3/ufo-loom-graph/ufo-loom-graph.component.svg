@@ -1,3 +1,9 @@
-<div class="ufo-graph-small"></div>
-<div class="ufo-graph-medium"></div>
-<div class="ufo-graph-large"></div>
+<h1 class="chart-header">UFO sightings in de United States and Canada</h1>
+
+<div class="size-btns">
+  <button [ngClass]="{'focus': prevSize !== 'large'}" (click)="createSVG('large', data['large'])">Most sightings</button>
+  <button [ngClass]="{'focus': prevSize !== 'medium'}" (click)="createSVG('medium', data['medium'])">Medium sightings</button>
+  <button [ngClass]="{'focus': prevSize !== 'small'}" (click)="createSVG('small', data['small'])">Least sightings</button>
+</div>
+
+<div class="ufo-graph"></div>

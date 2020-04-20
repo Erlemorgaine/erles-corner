@@ -1,11 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import "./app/styles/link.scss";
-@import "./app/styles/globals.scss";
-@import "./app/styles/mixins.scss";
-@import "./app/styles/text.scss";
+@import "./app/styles/link";
+@import "./app/styles/globals";
+@import "./app/styles/mixins";
+@import "./app/styles/text";
 @import "./app/styles/container";
 @import "./app/styles/button";
+@import "./app/styles/animations";
 
 body {
   margin: 0;

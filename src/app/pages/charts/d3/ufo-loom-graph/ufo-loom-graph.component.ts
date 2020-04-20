@@ -12,13 +12,72 @@ import * as _ from 'lodash';
 export class UfoLoomGraphComponent implements OnInit {
   public data: {[k: string]: { state, shape, amountSightings }[]} = {};
   public states: string[] = [];
+  public abbrToState = {
+    'AL': 'Alabama',
+    'AK': 'Alaska',
+    'AZ': 'Arizona',
+    'AR': 'Arkansas',
+    'CA': 'California',
+    'CO': 'Colorado',
+    'CT': 'Connecticut',
+    'DE': 'Delaware',
+    'FL': 'Florida',
+    'GA': 'Georgia',
+    'HI': 'Hawaii',
+    'ID': 'Idaho',
+    'IL': 'Illinois',
+    'IN': 'Indiana',
+    'IA': 'Iowa',
+    'KS': 'Kansas',
+    'KY': 'Kentucky',
+    'LA': 'Louisiana',
+    'ME': 'Maine',
+    'MD': 'Maryland',
+    'MA': 'Massachusetts',
+    'MI': 'Michigan',
+    'MN': 'Minnesota',
+    'MS': 'Mississippi',
+    'MO': 'Missouri',
+    'MT': 'Montana',
+    'NE': 'Nebraska',
+    'NV': 'Nevada',
+    'NH': 'New Hampshire',
+    'NJ': 'New Jersey',
+    'NM': 'New Mexico',
+    'NY': 'New York',
+    'NC': 'North Carolina',
+    'ND': 'North Dakota',
+    'OH': 'Ohio',
+    'OK': 'Oklahoma',
+    'OR': 'Oregon',
+    'PA': 'Pennsylvania',
+    'RI': 'Rhode Island',
+    'SC': 'South Carolina',
+    'SD': 'South Dakota',
+    'TN': 'Tennessee',
+    'TX': 'Texas',
+    'UT': 'Utah',
+    'VT': 'Vermont',
+    'VA': 'Virginia',
+    'WA': 'Washington',
+    'WV': 'West Virginia',
+    'WI': 'Wisconsin',
+    'WY': 'Wyoming'
+  };
+
+  private prevSize: string;
 
   ngOnInit(): void {
     d3.csv("assets/ufo-data.csv").then((data) => {
-      const dataByState = _.groupBy(data, d => d['state']);
-      this.states = Object.keys(dataByState)
-        .sort((a, b) => dataByState[a].length - dataByState[b].length);
-      const shapes = [...new Set(data.map((d) => d['shape']))];
+      const dataByState = _.groupBy(
+        data.map((d) => {
+          d['state'] = !!this.abbrToState[d['state'].toUpperCase()] ? this.abbrToState[d['state'].toUpperCase()] : 'Canada';
+          return d
+        }),
+          d => d['state']
+      );
+
+      this.states = Object.keys(dataByState).sort((a, b) => dataByState[a].length - dataByState[b].length);
       this.states.forEach((s) => dataByState[s] = _.groupBy(dataByState[s], d => d['shape']));
 
       const division = Math.floor(this.states.length / 3);
@@ -46,10 +105,17 @@ export class UfoLoomGraphComponent implements OnInit {
   }
 
   createSVG(id: string, data: { state, shape, amountSightings }[]): void {
+    d3.select('.ufo-graph-' + this.prevSize).remove();
+    this.prevSize = id;
+
     const shapeByAmount = ['light', 'triangle', 'circle', 'fireball', 'unknown', 'other', 'sphere', 'disk', 'oval', 'formation', 'cigar', 'changing', 'flash', 'rectangle', 'cylinder', 'diamond', 'chevron', 'teardrop', 'egg', 'cone', 'cross', 'delta', 'round', 'crescent', 'pyramid', 'hexagon', 'changed', 'flare'];
 
     const colors = {}
-    this.states.forEach((s, i) => colors[s] = `rgb(${i * 3 + 10}, ${i * 4 + 50}, ${(i + .5) * 3})`);
+    this.states.forEach((s, i) => {
+      const amount = data.filter((d) => d.state === s)
+        .reduce((a, b) => a + b['amountSightings'], 0);
+      colors[s] = `rgb(${Math.round(90000 / amount)}, ${Math.round(s.length * 15)}, ${Math.round(amount / 20)})`
+    });
 
     const innerRadius = 230;
     const loomGraph = loom()
@@ -58,27 +124,28 @@ export class UfoLoomGraphComponent implements OnInit {
       .outer((d) => d.state)
       .padAngle(0.07) // distance between two outer labels
       // these 3 are defaults
-      .widthInner(30) // distance between inner labels and strings
+      .widthInner((d, i) => i + 20) // distance between inner labels and strings
       .heightInner(25) // distance between inner labels
       .emptyPerc(.5)
       .sortSubgroups((a, b) => shapeByAmount.indexOf(a) - shapeByAmount.indexOf(b))
       .sortLooms(d3.descending);
 
-    const pullOutSize = 100;
+    const pullOutSize = 150;
     const loomString = string()
       .radius(innerRadius)
       // default values
       .pullout(pullOutSize)
-      .thicknessInner(0);
+      .thicknessInner(0.1);
 
     const arc = d3.arc()
       .innerRadius(innerRadius * 1.1)
       .outerRadius(240);
 
-    const width = window.innerWidth;
-    const height = 800;
-    const svg = d3.select('.ufo-graph-' + id)
+    const width = 1000;
+    const height = 650;
+    const svg = d3.select('.ufo-graph')
       .append('svg')
+      .attr("class", "ufo-graph-" + id)
       .attr("width", width)
       .attr("height", height);
 
@@ -114,8 +181,14 @@ export class UfoLoomGraphComponent implements OnInit {
     outerLabels.append("text")
       .attr("class", "outer-label")
       .attr("dy", ".35em")
-      .style("fill", "#ffffff")
+      .style("fill", (d) => {
+        const brighterColor = d3.color(colors[d["outername"]]).brighter(1.2);
+        return `rgb(${brighterColor['r']}, ${brighterColor['g']}, ${brighterColor['b']})`;
+      })
+      .style("font-family", "Do Hyeon")
       .text((d) => d["outername"])
+      .on("mouseover.highlight", highlight("outer"))
+      .on('mouseout', hightlightOff(.85));
 
     outerLabels.append("text")
       .attr("class", "outer-label-value")
@@ -145,6 +218,28 @@ export class UfoLoomGraphComponent implements OnInit {
       .attr("text-anchor", 'middle')
       .style("fill", "#ffffff")
       .style("font-family", "Do Hyeon")
-      .text(function (d, i) { return d["name"]; });
+      .text(d => d["name"])
+      .on('mouseout', hightlightOff())
+      .on('mouseover.highlight', highlight("inner"));
+
+    function highlight(labelType) {
+      return label => {
+        strings
+          .style("opacity", s => {
+            const name = (labelType === "inner" ? "" : labelType) + "name";
+            return s[labelType][name] === label[name] ? 1 : 0
+          })
+          .style("stroke", (d) => colors[d["outer"]["outername"]])
+          .style("stroke-width", '.02em')
+      }
+    }
+
+    function hightlightOff(opacity = 1) {
+      return d => {
+        strings.style("opacity", opacity)
+          .style("stroke", 'none')
+          .style("stroke-width", 0)
+      }
+    }
   }
 }
