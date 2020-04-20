@@ -65,7 +65,7 @@ export class UfoLoomGraphComponent implements OnInit {
     'WY': 'Wyoming'
   };
 
-  private prevSize: string;
+  public prevSize: string;
 
   ngOnInit(): void {
     d3.csv("assets/ufo-data.csv").then((data) => {
@@ -171,7 +171,7 @@ export class UfoLoomGraphComponent implements OnInit {
       .attr("class", "outer-labels")
       .attr("text-anchor", (d) => d["angle"] > Math.PI ? "end" : null)
       .attr("transform", (d, i) => {
-        const c = arc.centroid(d);
+        const c = arc.centroid(d as {innerRadius, outerRadius, startAngle, endAngle});
         return "translate(" + (c[0] + d["pullOutSize"]) + "," + c[1] + ")"
           + "rotate(" + (d["angle"] * 180 / Math.PI - 90) + ")"
           + "translate(" + 26 + ",0)"
