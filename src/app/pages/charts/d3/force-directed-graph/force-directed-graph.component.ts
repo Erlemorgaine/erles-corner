@@ -31,7 +31,7 @@ export class ForceDirectedGraphComponent implements OnInit, AfterViewInit {
   };
 
   hoverGroup: string;
-  graph: BehaviorSubject<ForceDirectedGraph> = new BehaviorSubject(null);
+  graph$: BehaviorSubject<ForceDirectedGraph> = new BehaviorSubject(null);
   options: { width, height } = { width: 800, height: 600 };
 
   constructor(private d3Service: D3Service, private changeDetectorRef: ChangeDetectorRef) {}
@@ -99,12 +99,12 @@ export class ForceDirectedGraphComponent implements OnInit, AfterViewInit {
         }
       });
 
-      this.graph.next(this.d3Service.getForceDirectedGraph(this.nodes, this.links, this.options));
+      this.graph$.next(this.d3Service.getForceDirectedGraph(this.nodes, this.links, this.options));
     });
   }
 
   ngAfterViewInit(): void {
-    this.graph.subscribe((g) => {
+    this.graph$.subscribe((g) => {
       if (g) {
         g.initSimulation(this.options);
         this.changeDetectorRef.detectChanges();

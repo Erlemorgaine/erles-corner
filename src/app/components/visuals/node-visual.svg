@@ -29,5 +29,10 @@
           text-anchor="middle">
       {{ node.id }}
     </text>
+<!--    <text [attr.fill]="'#ffffff'"-->
+<!--          [attr.opacity]="node.hover && node.connected ? 1 : 0"-->
+<!--          [attr.y]="node.y + node.radius + 200">-->
+<!--        {{ percentage + "%" }}-->
+<!--    </text>-->
   </g>
 </svg>

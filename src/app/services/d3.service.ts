@@ -58,7 +58,7 @@ export class D3Service {
 
   // TODO: MAKE IT WORK
   // problem is that i have no access to the links here (is outside of element)
-  applyMouseOverBehaviour(element, node: Node, graph: ForceDirectedGraph) {
+  applyMouseOverBehaviour(element, graph: ForceDirectedGraph, node: Node) {
     const d3Element = d3.select(element);
     const tooltip = d3.select(".fdg-node-tooltip")
 
@@ -83,7 +83,7 @@ export class D3Service {
     });
 
     d3Element
-      .on('mouseover.fade', fade)
+      .on('mouseover.fade', !!node ? fade : () => {})
       .on('mouseout', mouseOut)
       .on('mouseover.tooltip', (d) => {
 
@@ -91,7 +91,7 @@ export class D3Service {
           .duration(200)
           .style("opacity", 1);
         tooltip.html(Math.round(node.amountAnswered / respondents * 100) + "%")
-          .style("left", (node.x + window.innerWidth * .122) + "px")
+          .style("left", (node.x + window.innerWidth * .119) + "px")
           .style("top", (node.y + 12) + "px");
       })
       .on("mouseout.tooltip", () => {
