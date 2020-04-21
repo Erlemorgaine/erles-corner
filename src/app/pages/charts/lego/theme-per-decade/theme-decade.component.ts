@@ -66,7 +66,8 @@ export class ThemeDecadeComponent extends LegoChartComponent implements OnInit {
     } else {
       this.dataOfTheme = this.data[theme];
       this.currentThemes.push(theme);
-      this.barChartData.push(this.setData(this.data[theme], this.themes.indexOf(theme), this.colorBlindMode));
+      // todo: activate cbm again when its clear which pattern fits with which button
+      this.barChartData.push(this.setData(this.data[theme], this.themes.indexOf(theme), /*this.colorBlindMode*/ false));
     }
   }
 

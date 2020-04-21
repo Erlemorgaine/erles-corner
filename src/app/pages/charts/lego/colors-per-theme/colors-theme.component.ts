@@ -14,7 +14,7 @@ export class ColorsThemeComponent extends LegoChartComponent implements OnInit {
 
   public currentTheme: string = 'Pirates';
   public decades: string[];
-  public currentDecade: string = '1990';
+  public currentDecade: string = '1990s';
   public typingAnimation: boolean = true;
 
   public barChartOptions = {
@@ -69,7 +69,7 @@ export class ColorsThemeComponent extends LegoChartComponent implements OnInit {
   setTheme(theme: string): void {
     // hacky way to re-fire the typing animation
     this.typingAnimation = false;
-    setTimeout(() => {this.typingAnimation = true}, 100);
+    setTimeout(() => {this.typingAnimation = true}, 1);
 
     this.currentTheme = theme;
     const newData = this.sortTheme(this.data[theme]);
