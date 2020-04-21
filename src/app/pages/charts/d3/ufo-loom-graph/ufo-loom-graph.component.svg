@@ -1,4 +1,5 @@
 <h1 class="chart-header">UFO sightings in de United States and Canada</h1>
+<span> (from 1910 onwards)</span>
 
 <div class="size-btns">
   <button [ngClass]="{'focus': prevSize !== 'large'}" (click)="createSVG('large', data['large'])">Most sightings</button>
